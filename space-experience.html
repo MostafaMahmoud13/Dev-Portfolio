@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STELLAR — Beyond the Horizon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --blue: #4FC3F7;
+    --purple: #9C27B0;
+    --violet: #7C3AED;
+    --neon: #00E5FF;
+    --gold: #D4AF6A;
+    --dark: #03040A;
+    --dark2: #070B14;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+    --text: #E8E8F0;
+    --muted: rgba(232,232,240,0.45);
+  }
+
+  html { scroll-behavior: auto; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 28px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(3,4,10,0.9) 0%, transparent 100%);
+  }
+  .nav-logo {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 15px; letter-spacing: 0.35em; color: var(--text);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--neon); border: 1px solid rgba(0,229,255,0.3);
+    padding: 10px 24px; border-radius: 2px; text-decoration: none;
+    transition: all 0.3s;
+  }
+  .nav-cta:hover { background: rgba(0,229,255,0.08); }
+
+  /* ─── SECTION SHARED ─── */
+  section { position: relative; width: 100%; overflow: hidden; }
+
+  /* ─── S1: HERO ─── */
+  #hero {
+    height: 100vh; min-height: 700px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--dark);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1800&q=80');
+    background-size: cover; background-position: center;
+    transform: scale(1.08);
+    transition: transform 0s;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(3,4,10,0.2) 0%,
+      rgba(3,4,10,0.45) 50%,
+      rgba(3,4,10,1) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; padding: 0 24px;
+    max-width: 900px;
+  }
+  .hero-eyebrow {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--neon); margin-bottom: 32px;
+    opacity: 0; transform: translateY(20px);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 10vw, 130px);
+    font-weight: 300; line-height: 0.92;
+    color: #fff; margin-bottom: 32px;
+    opacity: 0; transform: translateY(40px);
+  }
+  .hero-title em { font-style: italic; color: rgba(255,255,255,0.75); }
+  .hero-sub {
+    font-size: 13px; letter-spacing: 0.12em; color: var(--muted);
+    max-width: 440px; margin: 0 auto 56px;
+    line-height: 1.8;
+    opacity: 0; transform: translateY(20px);
+  }
+  .hero-cta-group { display: flex; gap: 20px; justify-content: center; align-items: center; opacity: 0; }
+  .btn-primary {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    padding: 18px 44px; background: var(--neon); color: var(--dark);
+    border: none; cursor: pointer; border-radius: 2px;
+    transition: all 0.3s; font-weight: 700;
+  }
+  .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+  .btn-ghost {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 10px; letter-spacing: 0.3em;
+    padding: 18px 44px; background: transparent; color: var(--text);
+    border: 1px solid var(--glass-border); cursor: pointer; border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.3); }
+  .hero-scroll-hint {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 2;
+    opacity: 0;
+  }
+  .scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--neon));
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+  .scroll-label {
+    font-size: 9px; letter-spacing: 0.4em; color: var(--muted);
+    font-family: 'Syncopate', sans-serif;
+  }
+
+  /* ─── S2: STORYTELLING INTRO ─── */
+  #story {
+    padding: 160px 60px;
+    background: var(--dark);
+  }
+  .story-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 120px; align-items: center;
+  }
+  .story-label {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 9px; letter-spacing: 0.5em; color: var(--neon);
+    margin-bottom: 28px; text-transform: uppercase;
+  }
+  .story-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 4vw, 64px); font-weight: 300; line-height: 1.1;
+    margin-bottom: 32px;
+  }
+  .story-heading em { font-style: italic; color: var(--gold); }
+  .story-body {
+    font-size: 14px; line-height: 1.9; color: var(--muted);
+    max-width: 440px;
+  }
+  .story-body p + p { margin-top: 20px; }
+  .story-visual {
+    position: relative; height: 500px; border-radius: 4px; overflow: hidden;
+  }
+  .story-visual img {
+    width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.05);
+  }
+  .story-visual::before {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(135deg, rgba(76,195,247,0.15), rgba(124,58,237,0.15));
+  }
+  .story-visual-label {
+    position: absolute; bottom: 24px; right: 24px; z-index: 2;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 9px; letter-spacing: 0.3em; color: rgba(255,255,255,0.5);
+  }
+
+  /* ─── S3: ATMOSPHERE ─── */
+  #atmosphere {
+    height: 60vh; min-height: 400px;
+    background: linear-gradient(180deg,
+      var(--dark) 0%,
+      #0A0520 25%,
+      #050B20 60%,
+      #03040A 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .atmo-rings {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid;
+  }
+  .ring-1 { width: 280px; height: 280px; border-color: rgba(0,229,255,0.06); }
+  .ring-2 { width: 480px; height: 480px; border-color: rgba(124,58,237,0.04); }
+  .ring-3 { width: 700px; height: 700px; border-color: rgba(76,195,247,0.03); }
+  .ring-4 { width: 960px; height: 960px; border-color: rgba(124,58,237,0.02); }
+  .atmo-glow {
+    position: absolute; width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+  }
+  .atmo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3.5vw, 52px);
+    font-weight: 300; font-style: italic;
+    text-align: center; color: rgba(255,255,255,0.7);
+    max-width: 700px; padding: 0 40px; position: relative; z-index: 2;
+    line-height: 1.4;
+  }
+
+  /* ─── S4: EARTH / SPACE ─── */
+  #space-section {
+    height: 90vh; min-height: 600px;
+    position: relative; overflow: hidden;
+  }
+  .space-bg {
+    position: absolute; inset: -5%;
+    background-image: url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=1800&q=80');
+    background-size: cover; background-position: center;
+    will-change: transform;
+  }
+  .space-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(3,4,10,0.5) 0%,
+      rgba(3,4,10,0.1) 40%,
+      rgba(3,4,10,0.5) 80%,
+      rgba(3,4,10,1) 100%);
+  }
+  .space-content {
+    position: relative; z-index: 2;
+    height: 100%; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center; padding: 0 40px;
+  }
+  .space-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 110px);
+    font-weight: 300; line-height: 0.95; color: #fff;
+    margin-bottom: 24px;
+  }
+  .space-sub {
+    font-size: 12px; letter-spacing: 0.3em; color: var(--muted);
+    text-transform: uppercase; font-family: 'Syncopate', sans-serif;
+  }
+
+  /* ─── S5: JOURNEY STEPS ─── */
+  #journey {
+    padding: 160px 60px;
+    background: var(--dark2);
+  }
+  .journey-header {
+    text-align: center; margin-bottom: 100px;
+  }
+  .journey-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 5vw, 72px); font-weight: 300; line-height: 1.1;
+  }
+  .journey-steps {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .step {
+    display: grid; grid-template-columns: 80px 1fr 1fr;
+    gap: 60px; align-items: center;
+    padding: 60px 0; border-bottom: 1px solid var(--glass-border);
+    opacity: 0; transform: translateY(30px);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 11px; color: var(--neon); letter-spacing: 0.2em;
+  }
+  .step-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 400; margin-bottom: 16px;
+  }
+  .step-info p { font-size: 13px; line-height: 1.8; color: var(--muted); }
+  .step-img {
+    height: 220px; border-radius: 3px; overflow: hidden;
+  }
+  .step-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ─── S6: HORIZONTAL DESTINATIONS ─── */
+  #destinations {
+    overflow: hidden;
+    background: var(--dark);
+  }
+  .destinations-pin {
+    height: 100vh; position: relative;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 60px;
+  }
+  .destinations-header {
+    margin-bottom: 48px;
+  }
+  .destinations-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px); font-weight: 300;
+  }
+  .destinations-scroll {
+    overflow: hidden;
+  }
+  .destinations-track {
+    display: flex; gap: 24px;
+    width: max-content;
+  }
+  .dest-card {
+    width: 380px; height: 480px;
+    border-radius: 4px; overflow: hidden;
+    position: relative; flex-shrink: 0;
+  }
+  .dest-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .dest-card:hover img { transform: scale(1.04); }
+  .dest-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(3,4,10,0.85) 0%, transparent 50%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 32px;
+  }
+  .dest-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; margin-bottom: 8px;
+  }
+  .dest-distance {
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--neon); font-family: 'Syncopate', sans-serif;
+  }
+
+  /* ─── S7: PREMIUM CARDS ─── */
+  #premium {
+    padding: 160px 60px;
+    background: var(--dark2);
+  }
+  .premium-header { text-align: center; margin-bottom: 80px; }
+  .premium-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 5vw, 72px); font-weight: 300; margin-bottom: 20px;
+  }
+  .premium-header p { font-size: 13px; color: var(--muted); letter-spacing: 0.08em; }
+  .glass-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .glass-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px; padding: 48px 40px;
+    position: relative; overflow: hidden;
+    transition: transform 0.4s ease, border-color 0.4s;
+    opacity: 0; transform: translateY(30px);
+  }
+  .glass-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,229,255,0.2);
+  }
+  .glass-card::before {
+    content: ''; position: absolute;
+    top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
+  }
+  .card-icon {
+    font-size: 28px; margin-bottom: 28px;
+    display: block;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 400; margin-bottom: 16px;
+  }
+  .card-desc { font-size: 13px; line-height: 1.8; color: var(--muted); margin-bottom: 32px; }
+  .card-link {
+    font-size: 10px; letter-spacing: 0.3em; color: var(--neon);
+    text-decoration: none; font-family: 'Syncopate', sans-serif;
+    border-bottom: 1px solid rgba(0,229,255,0.3); padding-bottom: 4px;
+    transition: border-color 0.3s;
+  }
+  .card-link:hover { border-color: var(--neon); }
+
+  /* ─── S8: BOLD TYPOGRAPHY ─── */
+  #statement {
+    padding: 180px 60px;
+    background: var(--dark);
+    overflow: hidden;
+  }
+  .statement-inner { max-width: 1300px; margin: 0 auto; }
+  .statement-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(56px, 9vw, 130px);
+    font-weight: 300; line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+  .statement-text .line { display: block; overflow: hidden; }
+  .statement-text .word { display: inline-block; }
+  .accent-word { color: var(--gold); font-style: italic; }
+  .dim-word { color: rgba(232,232,240,0.2); }
+  .statement-aside {
+    margin-top: 80px;
+    max-width: 380px;
+    margin-left: auto;
+  }
+  .statement-aside p { font-size: 13px; line-height: 1.9; color: var(--muted); }
+
+  /* ─── S9: GALLERY ─── */
+  #gallery {
+    padding: 60px;
+    background: var(--dark2);
+  }
+  .gallery-label {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 9px; letter-spacing: 0.5em; color: var(--neon);
+    margin-bottom: 48px; text-align: center;
+  }
+  .gallery-grid {
+    max-width: 1300px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+  .gallery-item {
+    overflow: hidden; border-radius: 3px;
+    position: relative;
+    opacity: 0;
+  }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.06); }
+  .gallery-item.tall { grid-row: span 2; }
+  .gallery-item.wide { grid-column: span 2; }
+  .gallery-item:nth-child(1) { height: 300px; }
+  .gallery-item:nth-child(2) { height: 300px; grid-row: span 2; }
+  .gallery-item:nth-child(3) { height: 300px; }
+  .gallery-item:nth-child(4) { height: 300px; }
+  .gallery-item:nth-child(5) { height: 300px; grid-column: span 2; }
+  .gallery-item:nth-child(6) { height: 300px; }
+  .gallery-item:nth-child(7) { height: 300px; grid-column: span 2; }
+  .gallery-item:nth-child(8) { height: 300px; }
+
+  /* ─── S10: STATS ─── */
+  #stats {
+    padding: 160px 60px;
+    background: var(--dark);
+    position: relative;
+  }
+  .stats-glow {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; height: 400px;
+    background: radial-gradient(ellipse, rgba(0,229,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .stats-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 60px; text-align: center; position: relative; z-index: 2;
+  }
+  .stat-item { opacity: 0; transform: translateY(20px); }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 6vw, 80px); font-weight: 300;
+    color: #fff; line-height: 1;
+    margin-bottom: 16px;
+  }
+  .stat-num span { color: var(--neon); }
+  .stat-label {
+    font-size: 10px; letter-spacing: 0.3em; color: var(--muted);
+    font-family: 'Syncopate', sans-serif; text-transform: uppercase;
+    line-height: 1.6;
+  }
+
+  /* ─── S11: TESTIMONIALS ─── */
+  #testimonials {
+    padding: 160px 60px;
+    background: var(--dark2);
+  }
+  .test-header { text-align: center; margin-bottom: 80px; }
+  .test-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px); font-weight: 300;
+  }
+  .test-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  }
+  .test-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 6px; padding: 48px 40px;
+    position: relative; overflow: hidden;
+    opacity: 0; transform: translateY(20px);
+  }
+  .test-quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px; line-height: 1; color: rgba(0,229,255,0.15);
+    position: absolute; top: 20px; left: 32px;
+  }
+  .test-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-style: italic; line-height: 1.6;
+    color: rgba(232,232,240,0.85); margin-bottom: 32px;
+    position: relative; z-index: 2;
+  }
+  .test-author {
+    font-size: 10px; letter-spacing: 0.25em; color: var(--neon);
+    font-family: 'Syncopate', sans-serif;
+  }
+  .test-role { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+  /* ─── S12: CINEMATIC DIVIDER ─── */
+  #divider {
+    height: 70vh; min-height: 500px;
+    position: relative; overflow: hidden;
+  }
+  .divider-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?w=1800&q=80');
+    background-size: cover; background-position: center 30%;
+  }
+  .divider-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right,
+      rgba(3,4,10,0.85) 0%,
+      rgba(3,4,10,0.4) 50%,
+      rgba(3,4,10,0.7) 100%);
+  }
+  .divider-content {
+    position: relative; z-index: 2; height: 100%;
+    display: flex; align-items: center; padding: 0 80px;
+  }
+  .divider-text {
+    max-width: 600px;
+  }
+  .divider-text blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.3; color: #fff; margin-bottom: 32px;
+  }
+  .divider-text cite {
+    font-size: 10px; letter-spacing: 0.35em; color: var(--gold);
+    font-style: normal; font-family: 'Syncopate', sans-serif;
+  }
+
+  /* ─── S13: FINAL SHOWCASE ─── */
+  #showcase {
+    padding: 160px 60px;
+    background: var(--dark);
+  }
+  .showcase-inner {
+    max-width: 1200px; margin: 0 auto;
+  }
+  .showcase-header { margin-bottom: 80px; }
+  .showcase-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 6vw, 88px); font-weight: 300; line-height: 1;
+    margin-bottom: 24px;
+  }
+  .showcase-header h2 em { font-style: italic; color: var(--gold); }
+  .showcase-header p { font-size: 13px; color: var(--muted); line-height: 1.8; max-width: 520px; }
+  .showcase-feature {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;
+  }
+  .showcase-img {
+    height: 560px; border-radius: 4px; overflow: hidden;
+    position: relative;
+  }
+  .showcase-img img { width: 100%; height: 100%; object-fit: cover; }
+  .showcase-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(124,58,237,0.08));
+  }
+  .showcase-details { padding: 20px 0; }
+  .showcase-list { list-style: none; }
+  .showcase-list li {
+    padding: 24px 0; border-bottom: 1px solid var(--glass-border);
+    display: flex; align-items: center; gap: 20px;
+    font-size: 13px; color: var(--muted); line-height: 1.7;
+  }
+  .showcase-list li:last-child { border-bottom: none; }
+  .list-num {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 9px; color: var(--neon); letter-spacing: 0.2em;
+    flex-shrink: 0;
+  }
+
+  /* ─── S14: CTA ─── */
+  #cta {
+    padding: 200px 60px;
+    background: var(--dark2);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-glow-left {
+    position: absolute; left: -200px; top: 50%; transform: translateY(-50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-glow-right {
+    position: absolute; right: -200px; top: 50%; transform: translateY(-50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-label {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 9px; letter-spacing: 0.5em; color: var(--neon);
+    margin-bottom: 32px;
+  }
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 7vw, 96px); font-weight: 300; line-height: 1;
+    margin-bottom: 32px; position: relative; z-index: 2;
+  }
+  .cta-title em { font-style: italic; color: var(--gold); }
+  .cta-sub {
+    font-size: 13px; color: var(--muted); max-width: 440px; margin: 0 auto 60px;
+    line-height: 1.9;
+  }
+  .cta-buttons { display: flex; gap: 20px; justify-content: center; position: relative; z-index: 2; }
+  .btn-large {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+    padding: 22px 56px; border-radius: 2px; cursor: pointer; transition: all 0.3s;
+    font-weight: 700;
+  }
+  .btn-large.primary { background: var(--neon); color: var(--dark); border: none; }
+  .btn-large.primary:hover { background: #fff; transform: translateY(-3px); }
+  .btn-large.ghost { background: transparent; color: var(--text); border: 1px solid var(--glass-border); }
+  .btn-large.ghost:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-3px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #020308; padding: 80px 60px 40px;
+    border-top: 1px solid var(--glass-border);
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px; margin-bottom: 60px;
+  }
+  .footer-brand .logo {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 16px; letter-spacing: 0.35em; color: var(--text);
+    margin-bottom: 20px; display: block;
+  }
+  .footer-brand p { font-size: 12px; color: var(--muted); line-height: 1.8; max-width: 280px; }
+  .footer-col h4 {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 9px; letter-spacing: 0.4em; color: var(--neon);
+    margin-bottom: 24px; text-transform: uppercase;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 12px; }
+  .footer-col a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--text); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 40px; border-top: 1px solid var(--glass-border);
+  }
+  .footer-bottom p { font-size: 11px; color: rgba(232,232,240,0.25); }
+
+  /* ─── VISIBILITY UTILITY ─── */
+  .visible { opacity: 1 !important; transform: none !important; }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    #story .story-inner { grid-template-columns: 1fr; gap: 60px; }
+    .glass-grid { grid-template-columns: 1fr; }
+    .test-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2,1fr); gap: 40px; }
+    .showcase-feature { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2,1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .step { grid-template-columns: 40px 1fr; }
+    .step-img { display: none; }
+    #cta { padding: 120px 24px; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">STELLAR</a>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#premium">Experience</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#cta">Contact</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Book Voyage</a>
+</nav>
+
+<!-- S1: HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Est. 2024 — Orbital Voyages</p>
+    <h1 class="hero-title">Beyond<br><em>the Known</em></h1>
+    <p class="hero-sub">Luxury orbital travel experiences for those who seek the extraordinary. Where earth ends, your journey begins.</p>
+    <div class="hero-cta-group">
+      <button class="btn-primary">Explore Voyages</button>
+      <button class="btn-ghost">View the Fleet</button>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+    <span class="scroll-label">Scroll</span>
+  </div>
+</section>
+
+<!-- S2: STORYTELLING -->
+<section id="story">
+  <div class="story-inner">
+    <div class="story-left">
+      <p class="story-label">Our Philosophy</p>
+      <h2 class="story-heading">Travel is not just<br>about distance.<br>It's about <em>perspective.</em></h2>
+      <div class="story-body">
+        <p>Stellar was founded on a singular belief: that the act of leaving Earth's surface should transform you. Not merely transport you.</p>
+        <p>Every voyage is a curated experience — designed by aerospace engineers, artists, philosophers, and dreamers — to give you not just a destination, but an entirely new understanding of home.</p>
+        <p>We carry fewer than 12 passengers per mission. We believe intimacy creates revelation.</p>
+      </div>
+    </div>
+    <div class="story-visual">
+      <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?w=900&q=80" alt="Space view" loading="lazy">
+      <span class="story-visual-label">ISS — 408 km altitude</span>
+    </div>
+  </div>
+</section>
+
+<!-- S3: ATMOSPHERE -->
+<section id="atmosphere">
+  <div class="atmo-rings">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+    <div class="ring ring-4"></div>
+  </div>
+  <div class="atmo-glow"></div>
+  <p class="atmo-text" id="atmo-quote">"The universe is under no obligation to make sense to you."</p>
+</section>
+
+<!-- S4: EARTH / SPACE -->
+<section id="space-section">
+  <div class="space-bg" id="space-bg"></div>
+  <div class="space-overlay"></div>
+  <div class="space-content">
+    <h2 class="space-title" id="space-title">408<br>Kilometres<br><em>Above</em></h2>
+    <p class="space-sub" id="space-sub">Low Earth Orbit — The Gateway</p>
+  </div>
+</section>
+
+<!-- S5: JOURNEY STEPS -->
+<section id="journey">
+  <div class="journey-header">
+    <p class="story-label">The Experience</p>
+    <h2>A five-act voyage<br>into the infinite</h2>
+  </div>
+  <div class="journey-steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-info">
+        <h3>Pre-Launch Immersion</h3>
+        <p>Three days at our coastal preparation facility. Centrifuge training, zero-g simulation, and a curated programme of meditation, cuisine, and anticipation.</p>
+      </div>
+      <div class="step-img">
+        <img src="https://images.unsplash.com/photo-1516849677043-ef67c9557e16?w=600&q=75" alt="Training" loading="lazy">
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-info">
+        <h3>Launch Day Ceremony</h3>
+        <p>A private dawn ceremony at the pad. Witness the sunrise over the ocean from the gantry. The last quiet moment before everything changes.</p>
+      </div>
+      <div class="step-img">
+        <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564" alt="Launch" loading="lazy">
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-info">
+        <h3>Orbital Ascent</h3>
+        <p>Eight minutes of pure acceleration. The sky transitions from blue to violet to the infinite black of space. Earth curves below you for the first time.</p>
+      </div>
+      <div class="step-img">
+        <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a" alt="Orbit" loading="lazy">
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">04</span>
+      <div class="step-info">
+        <h3>Life in Microgravity</h3>
+        <p>Twelve to thirty days aboard the station. Float freely through panoramic cupola windows. Watch sixteen sunrises every day. Dine on Michelin-calibre cuisine prepared in zero-g.</p>
+      </div>
+      <div class="step-img">
+        <img src="https://images.unsplash.com/photo-1464802686167-b939a6910659" alt="Station" loading="lazy">
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">05</span>
+      <div class="step-info">
+        <h3>Return & Integration</h3>
+        <p>Re-entry is controlled, serene, and breathtaking. Landing is followed by three days of integration — the world looks different now. You are different now.</p>
+      </div>
+      <div class="step-img">
+        <img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78" alt="Return" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S6: HORIZONTAL DESTINATIONS -->
+<section id="destinations">
+  <div class="destinations-pin" id="dest-pin">
+    <div class="destinations-header">
+      <p class="story-label">Select Orbits</p>
+      <h2>Choose your<br><em style="font-style:italic; color: var(--gold)">destination</em></h2>
+    </div>
+    <div class="destinations-scroll">
+      <div class="destinations-track" id="dest-track">
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=700&q=75" alt="Low Earth Orbit" loading="lazy">
+          <div class="dest-overlay">
+            <span class="dest-name">Low Earth Orbit</span>
+            <span class="dest-distance">408 km — 12 nights</span>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=700&q=75" alt="Lunar Flyby" loading="lazy">
+          <div class="dest-overlay">
+            <span class="dest-name">Lunar Flyby</span>
+            <span class="dest-distance">384,400 km — 8 nights</span>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1614314107768-6018061b5b72?w=700&q=75" alt="Deep Space Arc" loading="lazy">
+          <div class="dest-overlay">
+            <span class="dest-name">Deep Space Arc</span>
+            <span class="dest-distance">1.2M km — 21 nights</span>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=700&q=75" alt="Polar Aurora Pass" loading="lazy">
+          <div class="dest-overlay">
+            <span class="dest-name">Polar Aurora Pass</span>
+            <span class="dest-distance">500 km inclined — 7 nights</span>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?w=700&q=75" alt="Sunset Side" loading="lazy">
+          <div class="dest-overlay">
+            <span class="dest-name">Eternal Sunset</span>
+            <span class="dest-distance">Terminator orbit — 10 nights</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S7: PREMIUM CARDS -->
+<section id="premium">
+  <div class="premium-header">
+    <p class="story-label">Included in Every Voyage</p>
+    <h2>Uncompromising<br>experience design</h2>
+    <p>Every element engineered for wonder</p>
+  </div>
+  <div class="glass-grid">
+    <div class="glass-card">
+      <span class="card-icon">✦</span>
+      <h3 class="card-title">Private Cupola Suite</h3>
+      <p class="card-desc">Your panoramic window to the cosmos. Each suite features floor-to-ceiling views, memory-adaptive sleeping configuration, and bespoke ambient soundscapes.</p>
+      <a href="#" class="card-link">Explore Suites</a>
+    </div>
+    <div class="glass-card">
+      <span class="card-icon">◈</span>
+      <h3 class="card-title">Zero-G Gastronomy</h3>
+      <p class="card-desc">Collaborate with a Michelin-starred partner chef to design your personal menu. Every meal prepared fresh aboard the station in our dedicated galley.</p>
+      <a href="#" class="card-link">View Menu</a>
+    </div>
+    <div class="glass-card">
+      <span class="card-icon">⬡</span>
+      <h3 class="card-title">Personal Mission Director</h3>
+      <p class="card-desc">From your first inquiry to splashdown, a dedicated Mission Director manages every detail of your voyage, available 24 hours across all time zones.</p>
+      <a href="#" class="card-link">Meet the Team</a>
+    </div>
+    <div class="glass-card">
+      <span class="card-icon">◎</span>
+      <h3 class="card-title">EVA Spacewalk</h3>
+      <p class="card-desc">Select itineraries include a supervised extravehicular activity — drifting in open space, tethered to the station, nothing between you and infinity.</p>
+      <a href="#" class="card-link">Book EVA</a>
+    </div>
+    <div class="glass-card">
+      <span class="card-icon">⌬</span>
+      <h3 class="card-title">Orbital Observatory</h3>
+      <p class="card-desc">Access the station's research-grade telescope array. Guided by our onboard astrophysicist, observe nebulae, binary stars, and distant galaxies.</p>
+      <a href="#" class="card-link">Star Maps</a>
+    </div>
+    <div class="glass-card">
+      <span class="card-icon">◉</span>
+      <h3 class="card-title">Recovery & Wellness</h3>
+      <p class="card-desc">Post-mission recovery at our private medical spa on the Amalfi Coast. Three days of physiotherapy, nutrition, and reflective coaching.</p>
+      <a href="#" class="card-link">The Retreat</a>
+    </div>
+  </div>
+</section>
+
+<!-- S8: BOLD TYPOGRAPHY -->
+<section id="statement">
+  <div class="statement-inner">
+    <div class="statement-text" id="statement-text">
+      <span class="line"><span class="word">You</span> <span class="word dim-word">have</span></span>
+      <span class="line"><span class="word dim-word">always</span> <span class="word">been</span></span>
+      <span class="line"><span class="word accent-word">made</span> <span class="word dim-word">of</span></span>
+      <span class="line"><span class="word">stardust.</span></span>
+      <span class="line"><span class="word dim-word">Now</span> <span class="word accent-word">return</span></span>
+      <span class="line"><span class="word">to</span> <span class="word dim-word">it.</span></span>
+    </div>
+    <div class="statement-aside">
+      <p>Carl Sagan wrote that we are a way for the cosmos to know itself. Stellar exists to close that loop — to bring conscious beings back into direct contact with the universe that created them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- S9: GALLERY -->
+<section id="gallery">
+  <p class="gallery-label">Mission Archive</p>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600&q=75" alt="Space 1" loading="lazy">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=600&q=75" alt="Space 2" loading="lazy">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1517976487492-5750f3195933?w=600&q=75" alt="Space 3" loading="lazy">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1541185933-ef5d1f8a8e10?w=600&q=75" alt="Space 4" loading="lazy">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=800&q=75" alt="Space 5" loading="lazy">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1614314107768-6018061b5b72?w=600&q=75" alt="Space 6" loading="lazy">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1543722530-d2c3201371e7?w=800&q=75" alt="Space 7" loading="lazy">
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=600&q=75" alt="Space 8" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- S10: STATS -->
+<section id="stats">
+  <div class="stats-glow"></div>
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num"><span class="count" data-target="247">0</span><span>+</span></div>
+      <p class="stat-label">Passengers<br>Launched</p>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="count" data-target="38">0</span></div>
+      <p class="stat-label">Missions<br>Completed</p>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="count" data-target="100">0</span><span>%</span></div>
+      <p class="stat-label">Mission<br>Success Rate</p>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span class="count" data-target="16">0</span><span>×</span></div>
+      <p class="stat-label">Daily Sunrises<br>Per Orbit</p>
+    </div>
+  </div>
+</section>
+
+<!-- S11: TESTIMONIALS -->
+<section id="testimonials">
+  <div class="test-header">
+    <p class="story-label">Voices from Orbit</p>
+    <h2>What travellers say</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card">
+      <span class="test-quote-mark">"</span>
+      <p class="test-quote">The Overview Effect is real. Watching Earth from the cupola — there are no borders, no divisions. Just this fragile, radiant blue sphere. I came back a different person.</p>
+      <p class="test-author">Amara Osei-Mensah</p>
+      <p class="test-role">Architect — Accra, Ghana</p>
+    </div>
+    <div class="test-card">
+      <span class="test-quote-mark">"</span>
+      <p class="test-quote">Stellar's team thought of everything. The cuisine, the suite, the EVA briefing. But nothing prepared me for the silence. Space is impossibly, beautifully quiet.</p>
+      <p class="test-author">Haruto Yamamoto</p>
+      <p class="test-role">Composer — Kyoto, Japan</p>
+    </div>
+    <div class="test-card">
+      <span class="test-quote-mark">"</span>
+      <p class="test-quote">I've climbed Everest, crossed Antarctica. Nothing — nothing — compares to floating free in open space with Earth turning slowly below your feet. Book it. Now.</p>
+      <p class="test-author">Sofia Lindqvist</p>
+      <p class="test-role">Adventurer — Stockholm, Sweden</p>
+    </div>
+  </div>
+</section>
+
+<!-- S12: CINEMATIC DIVIDER -->
+<section id="divider">
+  <div class="divider-bg"></div>
+  <div class="divider-overlay"></div>
+  <div class="divider-content">
+    <div class="divider-text" id="divider-text">
+      <blockquote>"To boldly go where no one has gone before is not a tagline. It is a calling."</blockquote>
+      <cite>— Stellar Manifesto, 2024</cite>
+    </div>
+  </div>
+</section>
+
+<!-- S13: FINAL SHOWCASE -->
+<section id="showcase">
+  <div class="showcase-inner">
+    <div class="showcase-header">
+      <h2>The <em>Celeste</em><br>Space Station</h2>
+      <p>Our private orbital platform — the world's most exclusive address. Permanently positioned at 408 km altitude, hosting just 12 guests at any time across four private suites.</p>
+    </div>
+    <div class="showcase-feature">
+      <div class="showcase-img" id="showcase-img">
+        <img src="https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=900&q=80" alt="Space Station" loading="lazy">
+      </div>
+      <div class="showcase-details">
+        <ul class="showcase-list">
+          <li><span class="list-num">01</span>Four private panoramic suites with 270° cupola windows</li>
+          <li><span class="list-num">02</span>Full-gravity centrifuge module for daily fitness</li>
+          <li><span class="list-num">03</span>Research-grade telescope array with guided sessions</li>
+          <li><span class="list-num">04</span>Dedicated EVA preparation and suit bay</li>
+          <li><span class="list-num">05</span>Zero-g gastronomy kitchen and communal lounge</li>
+          <li><span class="list-num">06</span>High-bandwidth communications for uninterrupted Earth contact</li>
+          <li><span class="list-num">07</span>Medical bay with onboard physician</li>
+          <li><span class="list-num">08</span>Redundant life support with 99.999% uptime</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S14: CTA -->
+<section id="cta">
+  <div class="cta-glow-left"></div>
+  <div class="cta-glow-right"></div>
+  <p class="cta-label">Begin Your Mission</p>
+  <h2 class="cta-title" id="cta-title">Ready to leave<br><em>everything behind?</em></h2>
+  <p class="cta-sub">Voyages are available quarterly. A refundable deposit reserves your place. Our Mission Directors are standing by to design your journey.</p>
+  <div class="cta-buttons">
+    <button class="btn-large primary">Reserve Your Voyage</button>
+    <button class="btn-large ghost">Download Prospectus</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="logo">STELLAR</span>
+      <p>Luxury orbital travel experiences. Where the atmosphere ends, our service begins. A new frontier in human exploration.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Voyages</h4>
+      <ul>
+        <li><a href="#">Low Earth Orbit</a></li>
+        <li><a href="#">Lunar Flyby</a></li>
+        <li><a href="#">Deep Space Arc</a></li>
+        <li><a href="#">Polar Aurora Pass</a></li>
+        <li><a href="#">Private Charters</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Stellar</a></li>
+        <li><a href="#">The Fleet</a></li>
+        <li><a href="#">Safety Record</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">Mission Directors</a></li>
+        <li><a href="#">hello@stellar.voyage</a></li>
+        <li><a href="#">+1 (800) STELLAR</a></li>
+        <li><a href="#">Cape Canaveral, FL</a></li>
+        <li><a href="#">Baikonur, KZ</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Stellar Voyage Co. All rights reserved.</p>
+    <p>Privacy Policy — Terms of Service — Cookie Preferences</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── HERO ENTRANCE ──────────────────────────────────
+  function initHero() {
+    const tl = gsap.timeline({ delay: 0.3 });
+    tl.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
+      .to('.hero-title',   { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=0.6')
+      .to('.hero-sub',     { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.7')
+      .to('.hero-cta-group', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.5')
+      .to('.hero-scroll-hint', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.4');
+  }
+
+  // ── ST1: STORY SECTION ────────────────────────────
+  function initStory() {
+    gsap.from('.story-left', {
+      scrollTrigger: { trigger: '#story', start: 'top 75%' },
+      opacity: 0, x: -50, duration: 1.2, ease: 'power3.out'
+    });
+    gsap.from('.story-visual', {
+      scrollTrigger: { trigger: '#story', start: 'top 75%' },
+      opacity: 0, x: 50, duration: 1.2, ease: 'power3.out', delay: 0.2
+    });
+  }
+
+  // ── ST2: SPACE SECTION SUBTLE ZOOM ───────────────
+  function initSpace() {
+    gsap.to('#space-bg', {
+      scrollTrigger: {
+        trigger: '#space-section',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5
+      },
+      scale: 1.12,
+      ease: 'none'
+    });
+    gsap.from(['#space-title', '#space-sub'], {
+      scrollTrigger: { trigger: '#space-section', start: 'top 65%' },
+      opacity: 0, y: 40, duration: 1.2, stagger: 0.2, ease: 'power3.out'
+    });
+  }
+
+  // ── ST3: JOURNEY STEPS ────────────────────────────
+  function initJourney() {
+    gsap.to('.step', {
+      scrollTrigger: {
+        trigger: '#journey',
+        start: 'top 60%',
+        end: 'bottom 80%',
+        toggleActions: 'play none none none'
+      },
+      opacity: 1, y: 0, duration: 0.8, stagger: 0.18, ease: 'power2.out'
+    });
+  }
+
+  // ── ST4: HORIZONTAL DESTINATIONS (PINNED) ─────────
+  function initDestinations() {
+    const track = document.getElementById('dest-track');
+    if (!track) return;
+    const totalScroll = track.scrollWidth - track.parentElement.offsetWidth;
+
+    gsap.to(track, {
+      x: () => -totalScroll,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#destinations',
+        start: 'top top',
+        end: () => '+=' + (totalScroll + 300),
+        pin: true,
+        scrub: 1.2,
+        invalidateOnRefresh: true
+      }
+    });
+  }
+
+  // ── ST5: GLASS CARDS ──────────────────────────────
+  function initCards() {
+    gsap.to('.glass-card', {
+      scrollTrigger: {
+        trigger: '#premium',
+        start: 'top 70%'
+      },
+      opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: 'power2.out'
+    });
+  }
+
+  // ── ST6: STATS COUNTER ───────────────────────────
+  function initStats() {
+    gsap.to('.stat-item', {
+      scrollTrigger: {
+        trigger: '#stats',
+        start: 'top 70%',
+        onEnter: () => {
+          document.querySelectorAll('.stat-item').forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          });
+          document.querySelectorAll('.count').forEach(el => {
+            const target = parseInt(el.getAttribute('data-target'), 10);
+            let current = 0;
+            const step = target / 60;
+            const timer = setInterval(() => {
+              current = Math.min(current + step, target);
+              el.textContent = Math.round(current);
+              if (current >= target) clearInterval(timer);
+            }, 25);
+          });
+        }
+      },
+      opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power2.out'
+    });
+  }
+
+  // ── ST7: TESTIMONIALS ────────────────────────────
+  function initTestimonials() {
+    gsap.to('.test-card', {
+      scrollTrigger: {
+        trigger: '#testimonials',
+        start: 'top 75%'
+      },
+      opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power2.out'
+    });
+  }
+
+  // ── ST8: GALLERY ────────────────────────────────
+  function initGallery() {
+    gsap.to('.gallery-item', {
+      scrollTrigger: {
+        trigger: '#gallery',
+        start: 'top 80%'
+      },
+      opacity: 1, duration: 0.7, stagger: 0.08, ease: 'power2.out'
+    });
+  }
+
+  // ── ST9: CTA TITLE ───────────────────────────────
+  function initCTA() {
+    gsap.from('#cta-title', {
+      scrollTrigger: { trigger: '#cta', start: 'top 70%' },
+      opacity: 0, y: 50, duration: 1.2, ease: 'power3.out'
+    });
+  }
+
+  // ── ST10: DIVIDER TEXT ────────────────────────────
+  function initDivider() {
+    gsap.from('#divider-text', {
+      scrollTrigger: { trigger: '#divider', start: 'top 65%' },
+      opacity: 0, x: -60, duration: 1.2, ease: 'power3.out'
+    });
+  }
+
+  // ── INIT ALL ─────────────────────────────────────
+  window.addEventListener('load', function() {
+    initHero();
+    initStory();
+    initSpace();
+    initJourney();
+    initDestinations();
+    initCards();
+    initStats();
+    initTestimonials();
+    initGallery();
+    initCTA();
+    initDivider();
+    ScrollTrigger.refresh();
+  });
+
+  // Debounced resize
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      ScrollTrigger.refresh();
+    }, 200);
+  });
+
+})();
+</script>
+</body>
+</html>

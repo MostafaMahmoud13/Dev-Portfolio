@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azure Airways — Fly Beyond The Horizon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #060e1c; --navy: #0b1f42; --azure: #1155cc; --sky: #3b82f6;
+  --sky-pale: #dbeafe; --gold: #c8a84b; --gold-lt: #edd98a; --gold-pale: #fdf7e3;
+  --white: #ffffff; --off: #f7f8fa; --mist: #e8edf5; --slate: #8fa3bf;
+  --ease-out: cubic-bezier(0.16,1,0.3,1); --ease-in: cubic-bezier(0.4,0,1,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden;cursor:none}
+#cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .3s var(--ease-out),height .3s var(--ease-out),background .3s}
+#cring{position:fixed;width:36px;height:36px;border:1px solid rgba(200,168,75,.5);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .4s var(--ease-out),height .4s var(--ease-out)}
+body.hov #cursor{width:18px;height:18px;background:var(--gold-lt)}
+body.hov #cring{width:54px;height:54px;border-color:rgba(200,168,75,.25)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:28px 64px;display:flex;align-items:center;justify-content:space-between;transition:padding .6s var(--ease-out),background .6s,backdrop-filter .6s,border-color .6s;border-bottom:1px solid transparent}
+#nav.solid{padding:16px 64px;background:rgba(6,14,28,.94);backdrop-filter:blur(24px) saturate(180%);border-color:rgba(200,168,75,.15)}
+.nav-brand{display:flex;align-items:center;gap:12px;font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--white);text-decoration:none;letter-spacing:.5px}
+.nav-brand span{color:var(--gold)}
+.brand-gem{width:32px;height:32px;flex-shrink:0;background:linear-gradient(135deg,var(--gold) 0%,#a87828 100%);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);animation:gemPulse 4s ease-in-out infinite}
+@keyframes gemPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
+.nav-links{display:flex;align-items:center;gap:40px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.75rem;font-weight:400;letter-spacing:2.5px;text-transform:uppercase;transition:color .3s;position:relative;padding-bottom:4px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:1px;background:var(--gold);transition:left .4s var(--ease-out),right .4s var(--ease-out)}
+.nav-links a:hover{color:var(--gold-lt)}
+.nav-links a:hover::after{left:0;right:0}
+.nav-cta{background:linear-gradient(135deg,var(--gold),#a87828);color:var(--ink)!important;padding:11px 28px;border-radius:1px;font-weight:600!important;transition:box-shadow .3s,transform .3s!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{box-shadow:0 8px 32px rgba(200,168,75,.5);transform:translateY(-2px)}
+
+/* HERO */
+#hero{position:relative;width:100%;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--ink)}
+.sky-grad{position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% 110%,#1a4a9a 0%,transparent 55%),radial-gradient(ellipse 80% 50% at 20% 90%,#0f3880 0%,transparent 45%),linear-gradient(180deg,#03080f 0%,#061428 18%,#0d2352 48%,#1a4a8a 74%,#2d6ab8 100%);animation:skyBreath 14s ease-in-out infinite alternate}
+@keyframes skyBreath{0%{filter:brightness(1) hue-rotate(0deg)}100%{filter:brightness(1.1) hue-rotate(5deg)}}
+.h-glow{position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(to top,rgba(74,140,220,.42) 0%,rgba(74,140,220,.1) 40%,transparent 100%);pointer-events:none}
+.h-glow2{position:absolute;bottom:0;left:15%;right:15%;height:30%;background:radial-gradient(ellipse 100% 100% at 50% 100%,rgba(200,168,75,.1) 0%,transparent 70%);pointer-events:none}
+#stars{position:absolute;inset:0;overflow:hidden}
+.star{position:absolute;background:white;border-radius:50%;animation:twinkle var(--td) var(--dl) ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:var(--lo);transform:scale(1)}50%{opacity:1;transform:scale(1.6)}}
+.cloud-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.cloud{position:absolute;border-radius:100px;filter:blur(var(--bl,3px));animation:drift var(--dur) var(--del) linear infinite;opacity:0}
+@keyframes drift{0%{transform:translateX(-400px) translateY(var(--vy,0px));opacity:0}4%{opacity:var(--op)}96%{opacity:var(--op)}100%{transform:translateX(calc(100vw + 400px)) translateY(var(--vy,0px));opacity:0}}
+#plane{position:absolute;z-index:20;pointer-events:none;left:50%;top:40%;transform:translate(-50%,-50%);filter:drop-shadow(0 24px 80px rgba(0,30,80,.7));will-change:transform;animation:planeIn 2.4s var(--ease-out) both,planeFloat 7s 2.4s ease-in-out infinite}
+@keyframes planeIn{0%{transform:translate(calc(-50% - 65vw),calc(-50% + 20vh)) scale(.3) rotate(-4deg);opacity:0}65%{opacity:1}100%{transform:translate(-50%,-50%) scale(1) rotate(0deg);opacity:1}}
+@keyframes planeFloat{0%,100%{transform:translate(-50%,calc(-50% + 0px)) rotate(0deg)}25%{transform:translate(-50%,calc(-50% - 15px)) rotate(.65deg)}75%{transform:translate(-50%,calc(-50% + 11px)) rotate(-.4deg)}}
+#plane.go{animation:planeDep 1.7s var(--ease-in) forwards!important}
+@keyframes planeDep{0%{transform:translate(-50%,-50%) scale(1) rotate(0deg);opacity:1}100%{transform:translate(calc(-50% + 140vw),calc(-50% - 60vh)) scale(.12) rotate(9deg);opacity:0}}
+#trail{position:absolute;z-index:19;pointer-events:none;top:40%;left:0;height:3px;width:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.0) 8%,rgba(255,255,255,.55) 60%,transparent 100%);filter:blur(1.5px);border-radius:2px;transform:translateY(-50%);animation:trailGrow 2s 1.1s var(--ease-out) both}
+@keyframes trailGrow{to{width:44vw}}
+#trail.bye{animation:trailBye .7s forwards!important}
+@keyframes trailBye{to{opacity:0;width:0}}
+.hero-content{position:relative;z-index:30;text-align:center;max-width:880px;padding:0 32px;margin-top:24vh;animation:heroIn 1.5s .95s var(--ease-out) both}
+@keyframes heroIn{from{opacity:0;transform:translateY(55px)}to{opacity:1;transform:translateY(0)}}
+.h-badge{display:inline-flex;align-items:center;gap:10px;font-size:.68rem;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
+.h-badge::before,.h-badge::after{content:'';display:block;width:36px;height:1px;background:var(--gold);opacity:.7}
+.h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.8rem,9.5vw,9.5rem);font-weight:300;line-height:.91;letter-spacing:-2px;color:var(--white);margin-bottom:28px}
+.h1 em{display:block;font-style:italic;color:var(--gold-lt);font-weight:300}
+.h-sub{font-size:clamp(.95rem,1.8vw,1.15rem);color:rgba(255,255,255,.6);font-weight:300;line-height:1.9;max-width:490px;margin:0 auto 50px;letter-spacing:.3px}
+.hbtns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-g{background:linear-gradient(135deg,var(--gold),#a07020);color:var(--ink);padding:17px 44px;border:none;border-radius:1px;font-family:'Jost',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;cursor:none;text-decoration:none;display:inline-block;transition:transform .35s var(--ease-out),box-shadow .35s}
+.btn-g:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(200,168,75,.55)}
+.btn-gh{background:transparent;color:var(--white);padding:16px 44px;border:1px solid rgba(255,255,255,.28);border-radius:1px;font-family:'Jost',sans-serif;font-size:.78rem;font-weight:400;letter-spacing:2.5px;text-transform:uppercase;cursor:none;text-decoration:none;display:inline-block;transition:all .35s var(--ease-out);position:relative;overflow:hidden}
+.btn-gh::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.07);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease-out)}
+.btn-gh:hover::before{transform:scaleX(1)}
+.btn-gh:hover{border-color:rgba(255,255,255,.55);transform:translateY(-3px)}
+.h-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:rgba(255,255,255,.36);font-size:.62rem;letter-spacing:4px;text-transform:uppercase;animation:heroIn 1s 2.6s var(--ease-out) both}
+.h-rod{width:1px;height:52px;overflow:hidden;background:rgba(255,255,255,.1);position:relative}
+.h-rod::after{content:'';position:absolute;top:-52px;left:0;width:1px;height:52px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);animation:rodAnim 2s 2.9s ease-in-out infinite}
+@keyframes rodAnim{to{top:104px}}
+
+/* BOOKING */
+#booking{background:var(--ink);position:relative;z-index:50;border-bottom:1px solid rgba(255,255,255,.06)}
+.bk-wrap{max-width:1400px;margin:0 auto;padding:48px 64px}
+.bk-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.bk-head h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--white)}
+.trip-toggle{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:1px;overflow:hidden}
+.t-btn{padding:9px 20px;border:none;background:none;color:rgba(255,255,255,.45);font-family:'Jost',sans-serif;font-size:.75rem;letter-spacing:1px;cursor:none;transition:all .3s}
+.t-btn.on{background:var(--gold);color:var(--ink);font-weight:600}
+.bk-grid{display:grid;grid-template-columns:1.2fr 1.2fr 1fr 1fr .8fr .8fr auto;gap:12px;align-items:end}
+.fg{display:flex;flex-direction:column;gap:7px}
+.fg label{font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:500}
+.fg input,.fg select{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);color:var(--white);padding:13px 16px;border-radius:1px;font-family:'Jost',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s,background .3s}
+.fg input:focus,.fg select:focus{border-color:var(--gold);background:rgba(255,255,255,.09)}
+.fg input::placeholder{color:rgba(255,255,255,.3)}
+.fg select option{background:#0b1f42;color:white}
+.s-cta{background:linear-gradient(135deg,var(--gold),#a07020);color:var(--ink);border:none;padding:14px 36px;border-radius:1px;font-family:'Jost',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:none;white-space:nowrap;transition:transform .3s var(--ease-out),box-shadow .3s}
+.s-cta:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(200,168,75,.45)}
+
+/* SHARED */
+.eyebrow{display:inline-flex;align-items:center;gap:14px;font-size:.68rem;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--gold)}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5.5vw,5rem);font-weight:300;line-height:1;letter-spacing:-1px}
+.sec-sub{font-size:1rem;font-weight:300;color:var(--slate);line-height:1.85;max-width:520px;margin-top:16px}
+
+/* DESTINATIONS */
+#destinations{padding:150px 0;background:var(--white)}
+.dest-wrap{max-width:1400px;margin:0 auto;padding:0 64px}
+.dest-hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px}
+.see-all{font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--azure);text-decoration:none;display:flex;align-items:center;gap:8px;transition:gap .3s}
+.see-all:hover{gap:14px}
+.dest-mosaic{display:grid;grid-template-columns:1.65fr 1fr 1fr;grid-template-rows:500px 330px;gap:14px}
+.dc{position:relative;overflow:hidden;border-radius:2px;cursor:none;transition:transform .5s var(--ease-out)}
+.dc:nth-child(1){grid-column:1;grid-row:1/3}
+.dc:nth-child(2){grid-column:2;grid-row:1}
+.dc:nth-child(3){grid-column:3;grid-row:1}
+.dc:nth-child(4){grid-column:2;grid-row:2}
+.dc:nth-child(5){grid-column:3;grid-row:2}
+.dc:hover{transform:scale(1.015);z-index:5}
+.dc-img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-out),filter .6s}
+.dc:hover .dc-img{transform:scale(1.1);filter:brightness(.85)}
+.dc-veil{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,14,28,.9) 0%,rgba(6,14,28,.25) 45%,transparent 100%);transition:opacity .5s}
+.dc:hover .dc-veil{opacity:.9}
+.dc-info{position:absolute;bottom:0;left:0;right:0;padding:32px 36px;transform:translateY(6px);transition:transform .5s var(--ease-out)}
+.dc:hover .dc-info{transform:translateY(0)}
+.dc-country{font-size:.66rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.dc-city{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3.5vw,3rem);color:var(--white);font-weight:300;line-height:1;margin-bottom:14px}
+.dc-price{font-size:.82rem;color:rgba(255,255,255,.5);opacity:0;transform:translateY(10px);transition:all .45s .1s var(--ease-out);display:flex;align-items:center;gap:8px}
+.dc:hover .dc-price{opacity:1;transform:translateY(0)}
+.dc-price strong{color:var(--gold-lt);font-size:1.2rem;font-weight:400;font-family:'Cormorant Garamond',serif}
+.dc-tag{position:absolute;top:20px;right:20px;background:var(--gold);color:var(--ink);font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:1px;opacity:0;transform:translateY(-6px);transition:all .4s .15s var(--ease-out)}
+.dc:hover .dc-tag{opacity:1;transform:translateY(0)}
+
+/* CABIN */
+#cabin{background:var(--ink);padding:160px 0;overflow:hidden}
+.cabin-wrap{max-width:1400px;margin:0 auto;padding:0 64px}
+.cabin-top{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start;margin-bottom:60px}
+.cabin-top .sec-title{color:var(--white)}
+.cabin-top .sec-sub{color:rgba(255,255,255,.42)}
+.ctabs{display:flex;gap:0;border-bottom:1px solid rgba(255,255,255,.08);margin-top:40px}
+.ctab{padding:12px 24px;background:none;border:none;color:rgba(255,255,255,.38);font-family:'Jost',sans-serif;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:all .3s;position:relative}
+.ctab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transition:transform .35s var(--ease-out)}
+.ctab.on{color:var(--gold-lt)}
+.ctab.on::after{transform:scaleX(1)}
+.c-feats{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:32px}
+.c-feats li{display:flex;align-items:center;gap:14px;color:rgba(255,255,255,.6);font-size:.9rem;font-weight:300}
+.c-feats li::before{content:'✦';color:var(--gold);font-size:.55rem;flex-shrink:0}
+.cabin-stage{display:grid;grid-template-columns:2.3fr 1fr;grid-template-rows:560px;gap:14px}
+.cmain{border-radius:2px;overflow:hidden;position:relative}
+.cmain img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease-out)}
+.cmain:hover img{transform:scale(1.05)}
+.ccol{display:grid;grid-template-rows:1fr 1fr;gap:14px}
+.csm{border-radius:2px;overflow:hidden;position:relative}
+.csm img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease-out)}
+.csm:hover img{transform:scale(1.07)}
+.ibadge{position:absolute;bottom:16px;left:16px;background:rgba(6,14,28,.72);backdrop-filter:blur(12px);color:var(--white);padding:7px 14px;border-radius:1px;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;border-left:2px solid var(--gold)}
+
+/* WHY */
+#why{padding:160px 0;background:var(--off)}
+.why-wrap{max-width:1400px;margin:0 auto;padding:0 64px}
+.why-hd{text-align:center;margin-bottom:90px}
+.why-hd .eyebrow{display:flex;justify-content:center}
+.why-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.wc{background:var(--white);border-radius:2px;padding:44px 36px;position:relative;overflow:hidden;cursor:none;transition:transform .5s var(--ease-out),box-shadow .5s;border:1px solid var(--mist)}
+.wc::before{content:'';position:absolute;inset:0;border-radius:2px;background:linear-gradient(145deg,var(--navy),var(--ink));opacity:0;transition:opacity .5s}
+.wc:hover::before{opacity:1}
+.wc:hover{transform:translateY(-10px);box-shadow:0 32px 72px rgba(11,31,66,.22)}
+.wc-n{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;line-height:1;color:var(--mist);margin-bottom:16px;position:relative;z-index:1;transition:color .5s}
+.wc:hover .wc-n{color:rgba(200,168,75,.18)}
+.wc-ico{font-size:2rem;margin-bottom:12px;position:relative;z-index:1}
+.wc h3{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;margin-bottom:14px;position:relative;z-index:1;transition:color .5s}
+.wc:hover h3{color:var(--white)}
+.wc p{font-size:.88rem;color:var(--slate);line-height:1.8;font-weight:300;position:relative;z-index:1;transition:color .5s}
+.wc:hover p{color:rgba(255,255,255,.6)}
+.wc-st{margin-top:24px;padding-top:20px;border-top:1px solid var(--mist);position:relative;z-index:1;transition:border-color .5s}
+.wc:hover .wc-st{border-color:rgba(255,255,255,.1)}
+.wc-st strong{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--azure);line-height:1;display:block;transition:color .5s}
+.wc:hover .wc-st strong{color:var(--gold-lt)}
+.wc-st em{font-size:.72rem;font-style:normal;color:var(--slate);letter-spacing:1px;transition:color .5s}
+.wc:hover .wc-st em{color:rgba(255,255,255,.4)}
+
+/* PARALLAX BAND */
+#xband{height:90vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.xbg{position:absolute;inset:-18%;background-size:cover;background-position:center;will-change:transform}
+.xveil{position:absolute;inset:0;background:linear-gradient(135deg,rgba(6,14,28,.82),rgba(11,31,66,.68))}
+#xband::before{content:'';position:absolute;top:0;left:0;right:0;height:80px;background:var(--off);clip-path:polygon(0 0,100% 0,100% 100%,0 0);z-index:2}
+#xband::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:var(--white);clip-path:polygon(0 100%,100% 0,100% 100%);z-index:2}
+.x-inner{position:relative;z-index:3;text-align:center;max-width:760px;padding:0 40px}
+.x-inner .eyebrow{justify-content:center}
+.x-inner .sec-title{color:var(--white);margin-bottom:24px}
+.x-inner p{color:rgba(255,255,255,.65);font-size:1.05rem;line-height:1.9;font-weight:300}
+.x-stats{display:flex;justify-content:center;margin-top:60px}
+.xs{text-align:center;padding:0 52px;border-right:1px solid rgba(200,168,75,.25)}
+.xs:last-child{border-right:none}
+.xs strong{font-family:'Cormorant Garamond',serif;font-size:3.8rem;color:var(--gold-lt);display:block;line-height:1;font-weight:300}
+.xs span{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.42)}
+
+/* TESTIMONIALS */
+#testimonials{padding:160px 0;background:var(--white);overflow:hidden}
+.test-wrap{max-width:1400px;margin:0 auto;padding:0 64px 60px}
+.test-hd{margin-bottom:64px}
+.test-slider{position:relative;overflow:hidden}
+.test-slider::before,.test-slider::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+.test-slider::before{left:0;background:linear-gradient(90deg,var(--white),transparent)}
+.test-slider::after{right:0;background:linear-gradient(-90deg,var(--white),transparent)}
+.test-track{display:flex;gap:24px;animation:trackScroll 48s linear infinite;width:max-content}
+.test-track:hover{animation-play-state:paused}
+@keyframes trackScroll{to{transform:translateX(-50%)}}
+.tc{width:400px;flex-shrink:0;background:var(--off);border-radius:2px;padding:36px;border:1px solid var(--mist);transition:transform .4s var(--ease-out),box-shadow .4s,border-color .4s;cursor:none;position:relative;overflow:hidden}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-lt));transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease-out)}
+.tc:hover::before{transform:scaleX(1)}
+.tc:hover{transform:translateY(-8px);box-shadow:0 24px 64px rgba(0,0,0,.1);border-color:rgba(200,168,75,.3)}
+.tc-q{font-family:'Cormorant Garamond',serif;font-size:4.5rem;color:var(--gold);line-height:.8;margin-bottom:14px;opacity:.6}
+.tc-t{font-size:.9rem;color:#556;line-height:1.8;font-weight:300;margin-bottom:24px}
+.tc-s{color:var(--gold);letter-spacing:3px;font-size:.8rem;margin-bottom:20px}
+.tc-au{display:flex;align-items:center;gap:14px}
+.tc-av{width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,var(--sky),var(--navy));display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:1rem}
+.tc-av img{width:100%;height:100%;object-fit:cover}
+.tc-nm{font-weight:500;font-size:.88rem}
+.tc-rt{font-size:.73rem;color:var(--slate);margin-top:2px}
+
+/* GALLERY */
+#gallery{padding:160px 0;background:var(--ink)}
+.gal-wrap{max-width:1400px;margin:0 auto;padding:0 64px}
+.gal-hd{margin-bottom:56px}
+.gal-hd .sec-title{color:var(--white)}
+.gal-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:290px 290px;gap:12px}
+.gi{overflow:hidden;border-radius:2px;position:relative;cursor:none}
+.gi:nth-child(1){grid-column:1/5;grid-row:1}
+.gi:nth-child(2){grid-column:5/8;grid-row:1}
+.gi:nth-child(3){grid-column:8/13;grid-row:1}
+.gi:nth-child(4){grid-column:1/4;grid-row:2}
+.gi:nth-child(5){grid-column:4/9;grid-row:2}
+.gi:nth-child(6){grid-column:9/13;grid-row:2}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease-out),filter .5s}
+.gi:hover img{transform:scale(1.1);filter:brightness(.75)}
+.gi-cap{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,14,28,.75),transparent 60%);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:24px}
+.gi:hover .gi-cap{opacity:1}
+.gi-cap span{color:var(--white);font-size:.78rem;letter-spacing:2px;text-transform:uppercase}
+.gi-z{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);width:48px;height:48px;border-radius:50%;background:rgba(200,168,75,.85);display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:1.3rem;transition:transform .45s var(--ease-out),opacity .3s;opacity:0}
+.gi:hover .gi-z{transform:translate(-50%,-50%) scale(1);opacity:1}
+
+/* CONTACT */
+#contact{padding:160px 0;background:var(--off)}
+.ct-wrap{max-width:1400px;margin:0 auto;padding:0 64px;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start}
+.cl .sec-title{margin-bottom:24px}
+.cl p{font-size:.95rem;line-height:1.85;color:var(--slate);font-weight:300;max-width:440px}
+.ci-list{margin-top:48px;display:flex;flex-direction:column;gap:16px}
+.ci{display:flex;align-items:center;gap:20px;padding:18px 24px;background:var(--white);border-radius:2px;border-left:3px solid var(--gold);transition:transform .3s var(--ease-out),box-shadow .3s;cursor:none}
+.ci:hover{transform:translateX(6px);box-shadow:6px 0 24px rgba(200,168,75,.12)}
+.ci-ic{font-size:1.4rem}
+.ci h4{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--slate);margin-bottom:4px}
+.ci p{font-size:.9rem;color:var(--ink);font-weight:500;margin:0;line-height:1.4}
+.cform{background:var(--white);border-radius:2px;padding:52px;border:1px solid var(--mist)}
+.cform h3{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid var(--mist)}
+.fg2{margin-bottom:20px}
+.fg2 label{display:block;font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--slate);font-weight:500;margin-bottom:8px}
+.fg2 input,.fg2 textarea,.fg2 select{width:100%;padding:13px 16px;border:1px solid var(--mist);border-radius:1px;font-family:'Jost',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s;color:var(--ink);background:var(--white)}
+.fg2 input:focus,.fg2 textarea:focus,.fg2 select:focus{border-color:var(--sky)}
+.fg2 textarea{resize:vertical;min-height:110px}
+.fg2-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cform .btn-g{width:100%;text-align:center;display:block}
+
+/* FOOTER */
+footer{background:var(--ink);color:var(--white);padding:90px 0 0}
+.ft-wrap{max-width:1400px;margin:0 auto;padding:0 64px}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:52px;padding-bottom:64px;border-bottom:1px solid rgba(255,255,255,.07)}
+.fbrand p{font-size:.87rem;color:rgba(255,255,255,.38);line-height:1.75;font-weight:300;max-width:290px}
+.socials{display:flex;gap:10px;margin-top:28px}
+.sb{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:.85rem;color:rgba(255,255,255,.5);transition:all .35s var(--ease-out);cursor:none}
+.sb:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);transform:translateY(-4px)}
+.fcol h4{font-size:.65rem;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;font-weight:500}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.fcol a{color:rgba(255,255,255,.38);text-decoration:none;font-size:.87rem;font-weight:300;transition:color .3s,padding-left .3s;display:block}
+.fcol a:hover{color:var(--white);padding-left:6px}
+.ft-bot{display:flex;justify-content:space-between;align-items:center;padding:24px 0}
+.ft-bot p{font-size:.78rem;color:rgba(255,255,255,.28);font-weight:300}
+.flinks{display:flex;gap:28px}
+.flinks a{font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .3s}
+.flinks a:hover{color:var(--white)}
+
+/* REVEAL */
+.sr{opacity:0;transform:translateY(50px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+.sl{opacity:0;transform:translateX(-50px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+.sr-r{opacity:0;transform:translateX(50px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+.vis{opacity:1!important;transform:none!important}
+[data-d="1"]{transition-delay:.1s}[data-d="2"]{transition-delay:.2s}[data-d="3"]{transition-delay:.3s}[data-d="4"]{transition-delay:.4s}[data-d="5"]{transition-delay:.5s}
+
+/* LIGHTBOX */
+#lb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.96);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s}
+#lb.open{opacity:1;pointer-events:all}
+#lb-img{max-width:88vw;max-height:86vh;object-fit:contain;border-radius:2px;transition:transform .5s var(--ease-out);transform:scale(.88)}
+#lb.open #lb-img{transform:scale(1)}
+#lb-x{position:absolute;top:28px;right:36px;color:white;font-size:1.8rem;cursor:none;opacity:.5;transition:opacity .2s,transform .3s;line-height:1}
+#lb-x:hover{opacity:1;transform:rotate(90deg)}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  #nav{padding:20px 32px}#nav.solid{padding:14px 32px}.nav-links{display:none}
+  .bk-grid{grid-template-columns:1fr 1fr 1fr}
+  .dest-mosaic{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .dc:nth-child(n){grid-column:auto;grid-row:auto;height:340px}
+  .why-cards{grid-template-columns:1fr 1fr}
+  .cabin-top{grid-template-columns:1fr;gap:40px}
+  .cabin-stage{grid-template-columns:1fr;grid-template-rows:420px 200px}
+  .ccol{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .ct-wrap{grid-template-columns:1fr;gap:60px}
+  .ft-top{grid-template-columns:1fr 1fr}
+  .gal-grid{grid-template-columns:repeat(6,1fr);grid-template-rows:220px 220px}
+  .gi:nth-child(1){grid-column:1/4}.gi:nth-child(2){grid-column:4/7}
+  .gi:nth-child(3){grid-column:1/3}.gi:nth-child(4){grid-column:3/5}
+  .gi:nth-child(5){grid-column:5/7}.gi:nth-child(6){display:none}
+}
+@media(max-width:768px){
+  .dest-wrap,.cabin-wrap,.why-wrap,.gal-wrap,.ct-wrap,.ft-wrap{padding:0 24px}
+  .bk-wrap{padding:36px 24px}.bk-grid{grid-template-columns:1fr 1fr}
+  .why-cards{grid-template-columns:1fr}.x-stats{flex-direction:column;align-items:center}
+  .xs{border-right:none;border-bottom:1px solid rgba(200,168,75,.2);padding:20px 0}
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cring"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-brand"><div class="brand-gem"></div>Azure<span>Airways</span></a>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#cabin">Experience</a></li>
+    <li><a href="#booking">Book</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#booking" class="nav-cta">Book Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="sky-grad"></div>
+  <div id="stars"></div>
+  <div class="cloud-layer" id="cl-far"></div>
+  <div class="cloud-layer" id="cl-mid"></div>
+  <div class="cloud-layer" id="cl-near"></div>
+  <div class="h-glow"></div>
+  <div class="h-glow2"></div>
+  <div id="trail"></div>
+
+  <!-- SVG AIRPLANE -->
+  <div id="plane">
+    <svg viewBox="0 0 720 260" width="700" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+      <defs>
+        <linearGradient id="body" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#7a9ac0"/><stop offset="15%" stop-color="#c0cedf"/>
+          <stop offset="40%" stop-color="#e8eff7"/><stop offset="65%" stop-color="#dce6f2"/>
+          <stop offset="85%" stop-color="#c5d2e3"/><stop offset="100%" stop-color="#8aa2bf"/>
+        </linearGradient>
+        <linearGradient id="wT" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#c4cfe0"/><stop offset="100%" stop-color="#7a90aa" stop-opacity=".85"/>
+        </linearGradient>
+        <linearGradient id="wB" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#c4cfe0"/><stop offset="100%" stop-color="#7a90aa" stop-opacity=".85"/>
+        </linearGradient>
+        <linearGradient id="tailG" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1155cc"/><stop offset="100%" stop-color="#3b82f6"/>
+        </linearGradient>
+        <filter id="ps"><feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="rgba(0,20,60,.55)"/></filter>
+        <filter id="eg"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <g filter="url(#ps)">
+        <!-- Fuselage -->
+        <ellipse cx="345" cy="130" rx="312" ry="31" fill="url(#body)"/>
+        <!-- Nose -->
+        <path d="M640 130 Q700 130 718 126 Q720 120 710 118 Q695 115 670 118 L650 125Z" fill="#d8e6f4"/>
+        <!-- Upper sheen -->
+        <ellipse cx="340" cy="119" rx="286" ry="11" fill="rgba(255,255,255,.13)"/>
+        <!-- Blue livery stripe -->
+        <path d="M30 131 Q200 144 400 144 Q580 144 640 131L640 138 Q580 151 400 151 Q200 151 30 138Z" fill="#1155cc" opacity=".75"/>
+        <!-- Gold stripe -->
+        <path d="M32 140 Q200 152 400 153 Q580 153 638 140L638 146 Q580 158 400 159 Q200 159 32 146Z" fill="#c8a84b" opacity=".9"/>
+        <!-- Windows -->
+        <g fill="rgba(170,215,250,.88)">
+          <rect x="240" y="120" width="15" height="11" rx="3.5"/><rect x="264" y="120" width="15" height="11" rx="3.5"/>
+          <rect x="288" y="120" width="15" height="11" rx="3.5"/><rect x="312" y="120" width="15" height="11" rx="3.5"/>
+          <rect x="336" y="120" width="15" height="11" rx="3.5"/><rect x="360" y="120" width="15" height="11" rx="3.5"/>
+          <rect x="384" y="120" width="15" height="11" rx="3.5"/><rect x="408" y="120" width="15" height="11" rx="3.5"/>
+          <rect x="432" y="120" width="15" height="11" rx="3.5"/><rect x="456" y="120" width="15" height="11" rx="3.5"/>
+          <rect x="480" y="120" width="15" height="11" rx="3.5"/><rect x="504" y="120" width="15" height="11" rx="3.5"/>
+          <rect x="528" y="120" width="13" height="11" rx="3.5"/><rect x="550" y="120" width="13" height="11" rx="3.5"/>
+          <rect x="572" y="120" width="12" height="11" rx="3.5"/><rect x="592" y="120" width="11" height="11" rx="3.5"/>
+          <rect x="610" y="121" width="10" height="10" rx="3"/><rect x="626" y="122" width="9" height="9" rx="2.5"/>
+        </g>
+        <!-- Main wing top -->
+        <path d="M200 130 L78 8 L150 8 L315 128Z" fill="url(#wT)"/>
+        <path d="M200 130 L78 254 L150 254 L315 133Z" fill="url(#wB)"/>
+        <path d="M200 130 L128 48 L143 48 L308 129Z" fill="rgba(255,255,255,.11)"/>
+        <!-- Vertical tail fin -->
+        <path d="M35 130 L32 46 Q38 36 56 42 L78 130Z" fill="url(#tailG)"/>
+        <text x="48" y="94" font-size="7" fill="rgba(255,255,255,.8)" font-family="serif" font-weight="bold" transform="rotate(-68,48,94)">AA</text>
+        <!-- Horizontal stabilizers -->
+        <path d="M60 130 L8 166 L30 170 L78 138Z" fill="url(#wB)"/>
+        <path d="M60 130 L8 96 L30 91 L78 123Z" fill="url(#wT)"/>
+        <!-- Engine lower -->
+        <g transform="translate(253,226)">
+          <ellipse cx="0" cy="0" rx="34" ry="13" fill="#c8d6e8"/>
+          <ellipse cx="-2" cy="-5" rx="26" ry="10" fill="#dce8f4"/>
+          <ellipse cx="-2" cy="-5" rx="16" ry="7" fill="#a0bcdc"/>
+          <ellipse cx="-2" cy="-5" rx="10" ry="4.5" fill="#6a9ec8" opacity=".8"/>
+          <ellipse cx="20" cy="0" rx="5" ry="11" fill="rgba(120,180,240,.32)" filter="url(#eg)"/>
+        </g>
+        <rect x="248" y="200" width="9" height="26" rx="2" fill="#b0c4d8"/>
+        <!-- Engine upper -->
+        <g transform="translate(253,31)">
+          <ellipse cx="0" cy="0" rx="34" ry="13" fill="#c8d6e8"/>
+          <ellipse cx="-2" cy="5" rx="26" ry="10" fill="#dce8f4"/>
+          <ellipse cx="-2" cy="5" rx="16" ry="7" fill="#a0bcdc"/>
+          <ellipse cx="-2" cy="5" rx="10" ry="4.5" fill="#6a9ec8" opacity=".8"/>
+          <ellipse cx="20" cy="0" rx="5" ry="11" fill="rgba(120,180,240,.32)" filter="url(#eg)"/>
+        </g>
+        <rect x="248" y="31" width="9" height="26" rx="2" fill="#b0c4d8"/>
+        <!-- Cockpit -->
+        <path d="M652 122 Q682 116 694 121 Q682 127 652 127Z" fill="rgba(110,180,240,.85)"/>
+        <path d="M644 124 Q672 118 684 124 Q671 129 644 129Z" fill="rgba(150,210,255,.45)"/>
+        <!-- Wingtip nav lights -->
+        <circle cx="78" cy="8" r="4.5" fill="#ff4444" opacity=".9"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="1.4s" repeatCount="indefinite"/></circle>
+        <circle cx="78" cy="254" r="4.5" fill="#4488ff" opacity=".9"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="1.4s" begin="0.7s" repeatCount="indefinite"/></circle>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="h-badge">Welcome Aboard Azure Airways</div>
+    <h1 class="h1">Fly Beyond<em>The Horizon</em></h1>
+    <p class="h-sub">Experience world-class comfort and unforgettable journeys to over 200 destinations worldwide.</p>
+    <div class="hbtns">
+      <a href="#booking" class="btn-g">Book a Flight</a>
+      <a href="#destinations" class="btn-gh">Explore Destinations</a>
+    </div>
+  </div>
+
+  <div class="h-scroll"><div class="h-rod"></div>Scroll to explore</div>
+</section>
+
+<!-- BOOKING -->
+<div id="booking">
+  <div class="bk-wrap">
+    <div class="bk-head">
+      <h2>Search Flights</h2>
+      <div class="trip-toggle">
+        <button class="t-btn on" onclick="setT(this)">Round Trip</button>
+        <button class="t-btn" onclick="setT(this)">One Way</button>
+        <button class="t-btn" onclick="setT(this)">Multi-City</button>
+      </div>
+    </div>
+    <div class="bk-grid">
+      <div class="fg"><label>From</label><input type="text" placeholder="City or airport"></div>
+      <div class="fg"><label>To</label><input type="text" placeholder="City or airport"></div>
+      <div class="fg"><label>Departure</label><input type="date"></div>
+      <div class="fg"><label>Return</label><input type="date"></div>
+      <div class="fg"><label>Passengers</label><select><option>1 Adult</option><option>2 Adults</option><option>3 Adults</option><option>Family</option></select></div>
+      <div class="fg"><label>Cabin</label><select><option>Economy</option><option>Premium Economy</option><option>Business</option><option>First Class</option></select></div>
+      <button class="s-cta">Search Flights →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DESTINATIONS -->
+<section id="destinations">
+  <div class="dest-wrap">
+    <div class="dest-hd sr">
+      <div><div class="eyebrow">Where Will You Go</div><h2 class="sec-title">Dream Destinations</h2></div>
+      <a href="#" class="see-all">View All Destinations →</a>
+    </div>
+    <div class="dest-mosaic">
+      <div class="dc sr" data-d="1"><img class="dc-img" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85" alt="Paris"><div class="dc-veil"></div><div class="dc-tag">Popular</div><div class="dc-info"><div class="dc-country">France</div><div class="dc-city">Paris</div><div class="dc-price">From <strong>$420</strong> &nbsp;·&nbsp; 3h 50m</div></div></div>
+      <div class="dc sr" data-d="2"><img class="dc-img" src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=85" alt="Dubai"><div class="dc-veil"></div><div class="dc-tag">Business Hub</div><div class="dc-info"><div class="dc-country">UAE</div><div class="dc-city">Dubai</div><div class="dc-price">From <strong>$510</strong> &nbsp;·&nbsp; 7h 15m</div></div></div>
+      <div class="dc sr" data-d="3"><img class="dc-img" src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=85" alt="Tokyo"><div class="dc-veil"></div><div class="dc-tag">Trending</div><div class="dc-info"><div class="dc-country">Japan</div><div class="dc-city">Tokyo</div><div class="dc-price">From <strong>$680</strong> &nbsp;·&nbsp; 12h 30m</div></div></div>
+      <div class="dc sr" data-d="2"><img class="dc-img" src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800&q=85" alt="New York"><div class="dc-veil"></div><div class="dc-tag">New Route</div><div class="dc-info"><div class="dc-country">USA</div><div class="dc-city">New York</div><div class="dc-price">From <strong>$380</strong> &nbsp;·&nbsp; 8h 45m</div></div></div>
+      <div class="dc sr" data-d="3"><img class="dc-img" src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&q=85" alt="Maldives"><div class="dc-veil"></div><div class="dc-tag">Escape</div><div class="dc-info"><div class="dc-country">Maldives</div><div class="dc-city">Malé</div><div class="dc-price">From <strong>$790</strong> &nbsp;·&nbsp; 9h 20m</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CABIN -->
+<section id="cabin">
+  <div class="cabin-wrap">
+    <div class="cabin-top">
+      <div class="sl">
+        <div class="eyebrow" style="color:var(--gold)">Above the Clouds</div>
+        <h2 class="sec-title" style="color:var(--white)">Cabin<br>Excellence</h2>
+        <p class="sec-sub" style="color:rgba(255,255,255,.42)">Step into a world of refined luxury where every detail has been crafted for your comfort.</p>
+        <div class="ctabs">
+          <button class="ctab on" onclick="setCT(this)">First Class</button>
+          <button class="ctab" onclick="setCT(this)">Business</button>
+          <button class="ctab" onclick="setCT(this)">Premium Economy</button>
+          <button class="ctab" onclick="setCT(this)">Economy</button>
+        </div>
+        <ul class="c-feats">
+          <li>Lie-flat private suites with sliding doors</li>
+          <li>Chef-curated multi-course dining</li>
+          <li>24" 4K personal entertainment screen</li>
+          <li>Exclusive Azure Arrival Lounge access</li>
+          <li>Luxury Hermès amenity kit</li>
+          <li>Direct-aisle access from every seat</li>
+        </ul>
+      </div>
+      <div class="sr-r" style="display:flex;align-items:center;justify-content:center">
+        <div style="color:rgba(255,255,255,.07);font-family:'Cormorant Garamond',serif;font-size:clamp(6rem,12vw,14rem);font-weight:300;line-height:1;letter-spacing:-4px;user-select:none">01</div>
+      </div>
+    </div>
+    <div class="cabin-stage sr">
+      <div class="cmain"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&q=85" alt="First Class Suite"><div class="ibadge">✦ First Class Suite</div></div>
+      <div class="ccol">
+        <div class="csm"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=700&q=85" alt="Fine Dining"><div class="ibadge">Fine Dining</div></div>
+        <div class="csm"><img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=700&q=85" alt="Entertainment"><div class="ibadge">Entertainment</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="why-wrap">
+    <div class="why-hd sr"><div class="eyebrow" style="justify-content:center">Our Promise</div><h2 class="sec-title">Why Fly With Azure</h2></div>
+    <div class="why-cards">
+      <div class="wc sr" data-d="1"><div class="wc-n">01</div><div class="wc-ico">✈</div><h3>Premium Comfort</h3><p>Award-winning seats with lie-flat beds in Business and First. Spacious legroom throughout every cabin class.</p><div class="wc-st"><strong data-count="98">0</strong><em>% passenger satisfaction</em></div></div>
+      <div class="wc sr" data-d="2"><div class="wc-n">02</div><div class="wc-ico">⏱</div><h3>On-Time Flights</h3><p>Our state-of-the-art operations centre ensures your journey stays precisely on schedule — every single time.</p><div class="wc-st"><strong data-count="94">0</strong><em>% on-time departure rate</em></div></div>
+      <div class="wc sr" data-d="3"><div class="wc-n">03</div><div class="wc-ico">🌍</div><h3>Global Reach</h3><p>Connecting 200+ destinations across 60 countries. The whole world is just one Azure flight away.</p><div class="wc-st"><strong data-count="200">0</strong><em>+ destinations worldwide</em></div></div>
+      <div class="wc sr" data-d="4"><div class="wc-n">04</div><div class="wc-ico">✦</div><h3>Luxury Service</h3><p>From boarding call to final touchdown, our Skytrax-rated crew is devoted to every detail of your journey.</p><div class="wc-st"><strong>5 ★</strong><em>Skytrax rating</em></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARALLAX BAND -->
+<section id="xband">
+  <div class="xbg" id="xbg" style="background-image:url('https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=1800&q=85')"></div>
+  <div class="xveil"></div>
+  <div class="x-inner sr">
+    <div class="eyebrow" style="justify-content:center">The Azure Experience</div>
+    <h2 class="sec-title" style="color:var(--white)">Travel Redefined</h2>
+    <p>Every journey with Azure is a story — of breathtaking views, warm hospitality, and moments that stay with you long after landing.</p>
+    <div class="x-stats">
+      <div class="xs"><strong data-count="47">0</strong><span>Million Passengers</span></div>
+      <div class="xs"><strong>1988</strong><span>Year Founded</span></div>
+      <div class="xs"><strong data-count="380">0</strong><span>Aircraft Fleet</span></div>
+      <div class="xs"><strong data-count="60">0</strong><span>Countries Served</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="test-wrap"><div class="test-hd sr"><div class="eyebrow">Traveler Stories</div><h2 class="sec-title">What Our Guests Say</h2></div></div>
+  <div class="test-slider">
+    <div class="test-track">
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">The First Class Suite was unlike anything I've experienced. Absolute privacy, a lie-flat bed that rivals any five-star hotel, and service that was anticipatory without being intrusive.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt=""></div><div><div class="tc-nm">James Hartwell</div><div class="tc-rt">London → Singapore · First Class</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">Traveling as a family of four was seamless. The children's meals, entertainment, and the way the crew made my kids feel so special — we're loyal Azure passengers forever.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt=""></div><div><div class="tc-nm">Sarah Mitchell</div><div class="tc-rt">Dubai → Tokyo · Business</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">As a frequent business traveler I've tried every major carrier. Azure's Business lounge in Dubai is worth flying for alone. The Champagne bar is something else entirely.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av" style="background:linear-gradient(135deg,#2196f3,#0d47a1)">AK</div><div><div class="tc-nm">Ahmed Khalid</div><div class="tc-rt">Dubai → New York · Business</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">I was blown away by the attention to detail. The amenity kit was thoughtful, the food was restaurant-quality, and we landed 25 minutes early. What more can you ask for?</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt=""></div><div><div class="tc-nm">Emma Rousseau</div><div class="tc-rt">Paris → Maldives · First Class</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">Even in Economy I felt genuinely comfortable. The extra-legroom seats are perfect, the screens huge, and the crew's warmth made the 11-hour flight feel short.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av" style="background:linear-gradient(135deg,#26a69a,#00695c)">RN</div><div><div class="tc-nm">Rahul Nair</div><div class="tc-rt">London → Mumbai · Economy</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">My honeymoon started the moment we boarded. The surprise anniversary upgrade and the handwritten note from the captain made our trip truly magical and unforgettable.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av"><img src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?w=100&q=80" alt=""></div><div><div class="tc-nm">Olivia & Tom Chen</div><div class="tc-rt">New York → Maldives · Business</div></div></div></div>
+      <!-- clones for loop -->
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">The First Class Suite was unlike anything I've experienced. Absolute privacy, a lie-flat bed that rivals any five-star hotel, and service that was anticipatory without being intrusive.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt=""></div><div><div class="tc-nm">James Hartwell</div><div class="tc-rt">London → Singapore · First Class</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">Traveling as a family of four was seamless. The children's meals, entertainment, and the way the crew made my kids feel so special — we're loyal Azure passengers forever.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt=""></div><div><div class="tc-nm">Sarah Mitchell</div><div class="tc-rt">Dubai → Tokyo · Business</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">As a frequent business traveler I've tried every major carrier. Azure's Business lounge in Dubai is worth flying for alone. The Champagne bar is something else entirely.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av" style="background:linear-gradient(135deg,#2196f3,#0d47a1)">AK</div><div><div class="tc-nm">Ahmed Khalid</div><div class="tc-rt">Dubai → New York · Business</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">I was blown away by the attention to detail. The amenity kit was thoughtful, the food was restaurant-quality, and we landed 25 minutes early. What more can you ask for?</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80" alt=""></div><div><div class="tc-nm">Emma Rousseau</div><div class="tc-rt">Paris → Maldives · First Class</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">Even in Economy I felt genuinely comfortable. The extra-legroom seats are perfect, the screens huge, and the crew's warmth made the 11-hour flight feel short.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av" style="background:linear-gradient(135deg,#26a69a,#00695c)">RN</div><div><div class="tc-nm">Rahul Nair</div><div class="tc-rt">London → Mumbai · Economy</div></div></div></div>
+      <div class="tc"><div class="tc-q">"</div><p class="tc-t">My honeymoon started the moment we boarded. The surprise anniversary upgrade and the handwritten note from the captain made our trip truly magical and unforgettable.</p><div class="tc-s">★★★★★</div><div class="tc-au"><div class="tc-av"><img src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?w=100&q=80" alt=""></div><div><div class="tc-nm">Olivia & Tom Chen</div><div class="tc-rt">New York → Maldives · Business</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gal-wrap">
+    <div class="gal-hd sr"><div class="eyebrow" style="color:var(--gold)">Through Our Lens</div><h2 class="sec-title" style="color:var(--white)">Travel Gallery</h2></div>
+    <div class="gal-grid">
+      <div class="gi sr" data-d="1"><img src="https://images.unsplash.com/photo-1488085061387-422e29b40080?w=800&q=85" alt="Airport"><div class="gi-cap"><span>Airports of the World</span></div><div class="gi-z">+</div></div>
+      <div class="gi sr" data-d="2"><img src="https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?w=600&q=85" alt="Sunset"><div class="gi-cap"><span>Golden Hour</span></div><div class="gi-z">+</div></div>
+      <div class="gi sr" data-d="1"><img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&q=85" alt="Mountains"><div class="gi-cap"><span>Breathtaking Views</span></div><div class="gi-z">+</div></div>
+      <div class="gi sr" data-d="2"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=85" alt="Beach"><div class="gi-cap"><span>Coastal Escapes</span></div><div class="gi-z">+</div></div>
+      <div class="gi sr" data-d="3"><img src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=900&q=85" alt="Travelers"><div class="gi-cap"><span>Happy Travelers</span></div><div class="gi-z">+</div></div>
+      <div class="gi sr" data-d="2"><img src="https://images.unsplash.com/photo-1500835556837-99ac94a94552?w=700&q=85" alt="Journey"><div class="gi-cap"><span>The Journey Within</span></div><div class="gi-z">+</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="ct-wrap">
+    <div class="cl sl">
+      <div class="eyebrow">Get In Touch</div>
+      <h2 class="sec-title">We're Here<br>For You</h2>
+      <p class="sec-sub">Our dedicated customer care team is available around the clock — ready to assist with bookings, changes, and special requests.</p>
+      <div class="ci-list">
+        <div class="ci"><div class="ci-ic">📞</div><div><h4>24/7 Support</h4><p>+1 (800) AZURE-FLY</p></div></div>
+        <div class="ci"><div class="ci-ic">✉️</div><div><h4>Email</h4><p>support@azureairways.com</p></div></div>
+        <div class="ci"><div class="ci-ic">📍</div><div><h4>Headquarters</h4><p>Azure Tower, Terminal 1, Dubai International</p></div></div>
+      </div>
+    </div>
+    <div class="cform sr-r">
+      <h3>Send Us a Message</h3>
+      <div class="fg2-row">
+        <div class="fg2"><label>First Name</label><input type="text" placeholder="John"></div>
+        <div class="fg2"><label>Last Name</label><input type="text" placeholder="Doe"></div>
+      </div>
+      <div class="fg2"><label>Email</label><input type="email" placeholder="john@email.com"></div>
+      <div class="fg2"><label>Topic</label><select><option>Booking Assistance</option><option>Flight Changes</option><option>Baggage</option><option>Loyalty Program</option><option>Feedback</option></select></div>
+      <div class="fg2"><label>Message</label><textarea placeholder="How can we help you today?"></textarea></div>
+      <a href="#" class="btn-g" style="display:block;text-align:center;width:100%">Send Message →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-wrap">
+    <div class="ft-top">
+      <div class="fbrand">
+        <a href="#" class="nav-brand" style="margin-bottom:18px;display:inline-flex"><div class="brand-gem"></div>Azure<span>Airways</span></a>
+        <p>Connecting the world with elegance since 1988. Your journey is our passion — every flight, every destination, every memory.</p>
+        <div class="socials">
+          <a href="#" class="sb">𝕏</a><a href="#" class="sb">f</a><a href="#" class="sb">in</a>
+          <a href="#" class="sb">◎</a><a href="#" class="sb">▶</a>
+        </div>
+      </div>
+      <div class="fcol"><h4>Destinations</h4><ul><li><a href="#">Middle East</a></li><li><a href="#">Europe</a></li><li><a href="#">Asia Pacific</a></li><li><a href="#">Americas</a></li><li><a href="#">Africa</a></li><li><a href="#">All Routes</a></li></ul></div>
+      <div class="fcol"><h4>Services</h4><ul><li><a href="#">First Class</a></li><li><a href="#">Business Class</a></li><li><a href="#">Economy</a></li><li><a href="#">Azure Lounge</a></li><li><a href="#">Cargo</a></li><li><a href="#">Holidays</a></li></ul></div>
+      <div class="fcol"><h4>Help Center</h4><ul><li><a href="#">Manage Booking</a></li><li><a href="#">Online Check-In</a></li><li><a href="#">Baggage Policy</a></li><li><a href="#">Flight Status</a></li><li><a href="#">Travel Essentials</a></li><li><a href="#">FAQs</a></li></ul></div>
+      <div class="fcol"><h4>Company</h4><ul><li><a href="#">About Azure</a></li><li><a href="#">Newsroom</a></li><li><a href="#">Sustainability</a></li><li><a href="#">Careers</a></li><li><a href="#">Investor Relations</a></li><li><a href="#">Contact Us</a></li></ul></div>
+    </div>
+    <div class="ft-bot">
+      <p>© 2025 Azure Airways. All rights reserved. Registered in the UAE.</p>
+      <div class="flinks"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Settings</a><a href="#">Accessibility</a></div>
+    </div>
+  </div>
+</footer>
+
+<div id="lb" onclick="closeLb()"><div id="lb-x" onclick="closeLb()">×</div><img id="lb-img" src="" alt=""></div>
+
+<script>
+/* CURSOR */
+const cur=document.getElementById('cursor'),cring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cring.style.left=rx+'px';cring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.dc,.wc,.gi,.tc,.ci,.sb').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+
+/* STARS */
+(function(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<140;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*2.8+.4;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*72}%;left:${Math.random()*100}%;--td:${(Math.random()*4+2).toFixed(2)}s;--dl:${(Math.random()*5).toFixed(2)}s;--lo:${(Math.random()*.35+.08).toFixed(2)}`;
+    c.appendChild(s);
+  }
+})();
+
+/* CLOUDS - 3 depth layers */
+(function(){
+  function rand(a,b){return a+Math.random()*(b-a)}
+  const layers=[
+    {id:'cl-far', n:6, wR:[100,190],hR:[16,26],tR:[18,55],dR:[100,140],oR:[.15,.26],bl:'5px',vyR:[-4,4]},
+    {id:'cl-mid', n:5, wR:[180,310],hR:[26,44],tR:[28,62],dR:[65,100],oR:[.28,.44],bl:'2px',vyR:[-8,8]},
+    {id:'cl-near',n:4, wR:[280,440],hR:[40,64],tR:[38,68],dR:[42,68],oR:[.42,.62],bl:'0px',vyR:[-14,14]},
+  ];
+  layers.forEach(({id,n,wR,hR,tR,dR,oR,bl,vyR})=>{
+    const cont=document.getElementById(id);
+    for(let i=0;i<n;i++){
+      const w=rand(...wR),h=rand(...hR),vy=rand(...vyR);
+      const el=document.createElement('div');el.className='cloud';
+      el.style.cssText=`width:${w}px;height:${h}px;top:${rand(...tR)}%;--bl:${bl};--op:${rand(...oR).toFixed(2)};--dur:${rand(...dR).toFixed(1)}s;--del:${rand(-90,0).toFixed(1)}s;--vy:${vy.toFixed(0)}px;left:-400px`;
+      for(let p=0;p<3;p++){
+        const b=document.createElement('div');
+        const bw=w*(.28+Math.random()*.28),bh=h*(1.3+Math.random()*.55);
+        b.style.cssText=`position:absolute;width:${bw}px;height:${bh}px;top:-${bh*.38}px;left:${w*.08+p*w*.28}px;border-radius:80px;background:rgba(255,255,255,.82);filter:blur(2px)`;
+        el.appendChild(b);
+      }
+      cont.appendChild(el);
+    }
+  });
+})();
+
+/* NAV */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60),{passive:true});
+
+/* PLANE DEPART */
+const plane=document.getElementById('plane'),trail=document.getElementById('trail');
+let gone=false;
+window.addEventListener('scroll',()=>{
+  if(!gone&&scrollY>innerHeight*.3){gone=true;plane.classList.add('go');trail.classList.add('bye')}
+},{passive:true});
+
+/* MOUSE PARALLAX on hero */
+const hero=document.getElementById('hero');
+hero.addEventListener('mousemove',e=>{
+  if(gone)return;
+  const dx=(e.clientX/innerWidth-.5)*16,dy=(e.clientY/innerHeight-.5)*9;
+  plane.style.marginLeft=dx+'px';plane.style.marginTop=dy+'px';
+});
+
+/* PARALLAX BAND */
+const xbg=document.getElementById('xbg');
+window.addEventListener('scroll',()=>{
+  const b=document.getElementById('xband').getBoundingClientRect();
+  const p=(innerHeight-b.top)/(innerHeight+b.height);
+  if(p>0&&p<1)xbg.style.transform=`translateY(${(p-.5)*110}px)`;
+},{passive:true});
+
+/* REVEAL */
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.sr,.sl,.sr-r').forEach(el=>ro.observe(el));
+
+/* COUNTERS */
+function animC(el,target){let v=0;const t=setInterval(()=>{v=Math.min(v+target/80,target);el.textContent=Math.floor(v);if(v>=target)clearInterval(t)},18)}
+const co=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting&&!e.target.dataset.done){e.target.dataset.done=1;const n=parseInt(e.target.dataset.count);if(n)animC(e.target,n)}
+}),{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+
+/* UI HELPERS */
+function setT(btn){btn.closest('.trip-toggle').querySelectorAll('.t-btn').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+function setCT(btn){btn.closest('.ctabs').querySelectorAll('.ctab').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+window.setT=setT;window.setCT=setCT;
+
+/* GALLERY LIGHTBOX */
+document.querySelectorAll('.gi').forEach(gi=>{
+  gi.addEventListener('click',()=>{document.getElementById('lb-img').src=gi.querySelector('img').src;document.getElementById('lb').classList.add('open')});
+});
+function closeLb(){document.getElementById('lb').classList.remove('open')}
+window.closeLb=closeLb;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()});
+
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}});
+});
+</script>
+</body>
+</html>

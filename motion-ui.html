@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apex — Build Faster. Ship Smarter.</title>
+  <link rel="stylesheet" href="style3.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+<body>
+
+  <!-- NOISE OVERLAY -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true">
+    <div class="scroll-progress__fill" id="scrollFill"></div>
+  </div>
+
+  <!-- LIVE ACTIVITY TOAST -->
+  <div class="activity-toast" id="activityToast" role="status" aria-live="polite">
+    <div class="toast__avatar">
+      <img src="https://i.pravatar.cc/32?img=5" alt="" width="32" height="32" />
+      <span class="toast__online"></span>
+    </div>
+    <div class="toast__content">
+      <strong id="toastName">Alex from Berlin</strong>
+      <span id="toastAction">just started a free trial</span>
+    </div>
+    <span class="toast__time">2m ago</span>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <span class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <polygon points="10,1 19,6 19,14 10,19 1,14 1,6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <polygon points="10,5 15,8 15,12 10,15 5,12 5,8" fill="currentColor" opacity="0.5"/>
+          </svg>
+        </span>
+        Apex
+      </a>
+      <ul class="nav__links">
+        <li><a href="#benefits" class="nav__link">Benefits</a></li>
+        <li><a href="#how" class="nav__link">How It Works</a></li>
+        <li><a href="#features" class="nav__link">Features</a></li>
+        <li><a href="#pricing" class="nav__link">Pricing</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a href="#" class="btn btn--ghost btn--sm">Sign In</a>
+        <a href="#pricing" class="btn btn--primary btn--sm btn--shimmer">Get Started →</a>
+      </div>
+      <button class="nav__hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" id="mobileMenu">
+      <a href="#benefits">Benefits</a>
+      <a href="#how">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#pricing" class="btn btn--primary">Get Started Free →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__grid"></div>
+      <div class="hero__orb hero__orb--1"></div>
+      <div class="hero__orb hero__orb--2"></div>
+      <div class="hero__orb hero__orb--3"></div>
+      <canvas class="hero__particles" id="particles"></canvas>
+    </div>
+
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <div class="hero__badge" data-hero>
+          <span class="badge__dot"></span>
+          <span class="badge__text">Trusted by <strong>14,000+</strong> teams worldwide</span>
+          <span class="badge__arrow">↗</span>
+        </div>
+
+        <h1 class="hero__headline" data-hero>
+          <span class="line">Build <em>Faster.</em></span>
+          <span class="line">Ship <em>Smarter.</em></span>
+          <span class="line outline-text">Scale Without Limits.</span>
+        </h1>
+
+        <p class="hero__sub" data-hero>
+          Apex gives your team the infrastructure, analytics, and automation
+          to go from idea to production — <span class="hero__typewriter" id="typewriter"></span>
+        </p>
+
+        <div class="hero__ctas" data-hero>
+          <a href="#pricing" class="btn btn--primary btn--lg btn--shimmer" data-magnetic>
+            <span class="btn__inner">
+              Start Free Trial
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="btn__ripple"></span>
+          </a>
+          <a href="#how" class="btn btn--ghost btn--lg" data-magnetic>
+            <span class="btn__play-wrap">
+              <span class="btn__play-ring"></span>
+              <span class="btn__play-icon">▶</span>
+            </span>
+            Watch Demo
+          </a>
+        </div>
+
+        <div class="hero__social-proof" data-hero>
+          <div class="avatars">
+            <img src="https://i.pravatar.cc/40?img=1" alt="user" class="avatar" width="36" height="36" />
+            <img src="https://i.pravatar.cc/40?img=2" alt="user" class="avatar" width="36" height="36" />
+            <img src="https://i.pravatar.cc/40?img=3" alt="user" class="avatar" width="36" height="36" />
+            <img src="https://i.pravatar.cc/40?img=4" alt="user" class="avatar" width="36" height="36" />
+            <div class="avatar avatar--count">+12k</div>
+          </div>
+          <div class="proof__divider"></div>
+          <div class="proof__text">
+            <div class="stars">★★★★★</div>
+            <span>4.9/5 · 2,400+ reviews</span>
+          </div>
+          <div class="proof__divider"></div>
+          <div class="proof__stat">
+            <strong>99.98%</strong>
+            <span>uptime SLA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__visual" data-hero-visual>
+        <div class="mockup" id="mockup">
+          <div class="mockup__bar">
+            <span class="dot dot--red"></span>
+            <span class="dot dot--yellow"></span>
+            <span class="dot dot--green"></span>
+            <span class="mockup__url">🔒 app.apex.io/dashboard</span>
+            <span class="mockup__reload">↻</span>
+          </div>
+          <div class="mockup__body">
+            <div class="dash__header">
+              <span class="dash__title">Sprint Overview</span>
+              <span class="dash__badge"><span class="badge__pulse"></span>Live</span>
+            </div>
+            <div class="dash__stats">
+              <div class="stat-card stat-card--accent">
+                <div class="stat__label">Deployments</div>
+                <div class="stat__value" data-count="1284">0</div>
+                <div class="stat__change up">↑ 23%</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat__label">Uptime</div>
+                <div class="stat__value">99.98%</div>
+                <div class="stat__change up">↑ 0.2%</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat__label">Latency</div>
+                <div class="stat__value">14ms</div>
+                <div class="stat__change down">↓ 18%</div>
+              </div>
+            </div>
+            <div class="dash__chart">
+              <div class="chart__label">Deployments / week</div>
+              <div class="chart__bars">
+                <div class="bar" style="--h:40%" data-label="Mon"></div>
+                <div class="bar" style="--h:65%" data-label="Tue"></div>
+                <div class="bar" style="--h:50%" data-label="Wed"></div>
+                <div class="bar" style="--h:80%" data-label="Thu"></div>
+                <div class="bar" style="--h:60%" data-label="Fri"></div>
+                <div class="bar bar--accent" style="--h:95%" data-label="Sat"></div>
+                <div class="bar" style="--h:70%" data-label="Sun"></div>
+              </div>
+            </div>
+            <div class="dash__tasks">
+              <div class="task task--done"><span class="task__check">✓</span>CI Pipeline optimized</div>
+              <div class="task task--done"><span class="task__check">✓</span>Database migrations synced</div>
+              <div class="task task--active">
+                <span class="task__dot"></span>
+                Deploying to production...
+                <span class="task__progress"><span class="task__progress-fill" id="deployProgress"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup__float mockup__float--1">
+          <span class="float__icon">🚀</span>
+          <div><strong>Deployed in 3.2s</strong><span>Production · v2.4.1</span></div>
+        </div>
+        <div class="mockup__float mockup__float--2">
+          <span class="float__icon">✅</span>
+          <div><strong>0 errors detected</strong><span>All tests passing</span></div>
+        </div>
+        <div class="mockup__float mockup__float--3">
+          <span class="float__icon">⚡</span>
+          <div><strong>14ms avg response</strong><span>Latency ↓ 18%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <div class="scroll__mouse"><div class="scroll__wheel"></div></div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- LOGOS -->
+  <section class="logos" aria-label="Trusted by">
+    <div class="logos__label">Powering teams at world-class companies</div>
+    <div class="logos__track">
+      <div class="logos__inner" id="logoTrack">
+        <span class="logo-item">Stripe</span>
+        <span class="logo-item">Vercel</span>
+        <span class="logo-item">Linear</span>
+        <span class="logo-item">Figma</span>
+        <span class="logo-item">Notion</span>
+        <span class="logo-item">Loom</span>
+        <span class="logo-item">Intercom</span>
+        <span class="logo-item">Mixpanel</span>
+        <span class="logo-item">Stripe</span>
+        <span class="logo-item">Vercel</span>
+        <span class="logo-item">Linear</span>
+        <span class="logo-item">Figma</span>
+        <span class="logo-item">Notion</span>
+        <span class="logo-item">Loom</span>
+        <span class="logo-item">Intercom</span>
+        <span class="logo-item">Mixpanel</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS STRIP -->
+  <section class="metrics">
+    <div class="container metrics__grid">
+      <div class="metric reveal">
+        <div class="metric__value"><span class="counter" data-target="14000" data-suffix="+">0</span></div>
+        <div class="metric__label">Teams worldwide</div>
+      </div>
+      <div class="metric__sep"></div>
+      <div class="metric reveal">
+        <div class="metric__value"><span class="counter" data-target="9998" data-display="99.98%">0</span></div>
+        <div class="metric__label">Uptime guarantee</div>
+      </div>
+      <div class="metric__sep"></div>
+      <div class="metric reveal">
+        <div class="metric__value"><span class="counter" data-target="32" data-display="3.2s">0</span></div>
+        <div class="metric__label">Average deploy time</div>
+      </div>
+      <div class="metric__sep"></div>
+      <div class="metric reveal">
+        <div class="metric__value"><span class="counter" data-target="2400" data-suffix="+">0</span></div>
+        <div class="metric__label">Five-star reviews</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="benefits" id="benefits">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Why Apex</span>
+        <h2 class="section-title">Everything you need.<br />Nothing you don't.</h2>
+        <p class="section-sub">Built for modern engineering teams who want to move fast without breaking things.</p>
+      </div>
+      <div class="benefits__grid">
+        <div class="benefit-card spotlight-card reveal" data-tilt>
+          <div class="spotlight"></div>
+          <div class="benefit__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3>10× Faster Deployments</h3>
+          <p>Automated pipelines cut deployment time from hours to seconds. Push code and watch it go live instantly.</p>
+          <div class="benefit__metric"><span class="metric-pill">⚡ 3.2s avg deploy time</span></div>
+        </div>
+        <div class="benefit-card spotlight-card reveal" data-tilt>
+          <div class="spotlight"></div>
+          <div class="benefit__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Zero-Downtime Security</h3>
+          <p>Enterprise-grade encryption, SOC 2 Type II certified, and automated threat detection running 24/7.</p>
+          <div class="benefit__metric"><span class="metric-pill">🔒 99.98% uptime SLA</span></div>
+        </div>
+        <div class="benefit-card spotlight-card reveal" data-tilt>
+          <div class="spotlight"></div>
+          <div class="benefit__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <h3>Real-Time Analytics</h3>
+          <p>Deep insights into performance, errors, and user behavior. Make data-driven decisions in real time.</p>
+          <div class="benefit__metric"><span class="metric-pill">📊 Live dashboards</span></div>
+        </div>
+        <div class="benefit-card spotlight-card reveal" data-tilt>
+          <div class="spotlight"></div>
+          <div class="benefit__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <h3>Team Collaboration</h3>
+          <p>Built-in review flows, role-based access, and Slack/GitHub integrations keep everyone in sync.</p>
+          <div class="benefit__metric"><span class="metric-pill">👥 Unlimited seats on Pro</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="how__bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Process</span>
+        <h2 class="section-title">Up and running<br />in three steps.</h2>
+        <p class="section-sub">No complex setup. No DevOps PhD required. Just connect and ship.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal" data-tilt>
+          <div class="step__number">01</div>
+          <div class="step__content">
+            <div class="step__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            </div>
+            <h3>Connect Your Repo</h3>
+            <p>Link GitHub, GitLab, or Bitbucket in one click. Apex reads your codebase and configures everything automatically.</p>
+            <a href="#" class="step__link">Learn more →</a>
+          </div>
+        </div>
+        <div class="step__arrow reveal">→</div>
+        <div class="step reveal" data-tilt>
+          <div class="step__number">02</div>
+          <div class="step__content">
+            <div class="step__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+            </div>
+            <h3>Configure Pipeline</h3>
+            <p>Choose environments, set deployment rules, configure alerts. Templates for every stack included.</p>
+            <a href="#" class="step__link">Learn more →</a>
+          </div>
+        </div>
+        <div class="step__arrow reveal">→</div>
+        <div class="step reveal" data-tilt>
+          <div class="step__number">03</div>
+          <div class="step__content">
+            <div class="step__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+            <h3>Deploy & Monitor</h3>
+            <p>Push code and watch Apex handle the rest. Real-time logs, alerts, and one-click rollback always available.</p>
+            <a href="#" class="step__link">Learn more →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Features</span>
+        <h2 class="section-title">Packed with power.<br />Surprisingly simple.</h2>
+      </div>
+      <div class="features__grid">
+        <div class="feature-item reveal" data-tilt><div class="feature__glow"></div><div class="feature__icon">⚡</div><h4>Instant Rollbacks</h4><p>One-click rollback to any previous deployment in under 5 seconds.</p></div>
+        <div class="feature-item reveal" data-tilt><div class="feature__glow"></div><div class="feature__icon">🔀</div><h4>Branch Previews</h4><p>Every PR gets a live preview URL automatically.</p></div>
+        <div class="feature-item reveal" data-tilt><div class="feature__glow"></div><div class="feature__icon">📊</div><h4>Observability Suite</h4><p>Logs, traces, metrics — all in one unified place.</p></div>
+        <div class="feature-item reveal" data-tilt><div class="feature__glow"></div><div class="feature__icon">🔒</div><h4>Secrets Manager</h4><p>Encrypted env vars synced across all environments.</p></div>
+        <div class="feature-item reveal" data-tilt><div class="feature__glow"></div><div class="feature__icon">🌍</div><h4>Global Edge Network</h4><p>Deploy to 30+ regions with one command.</p></div>
+        <div class="feature-item reveal" data-tilt><div class="feature__glow"></div><div class="feature__icon">🤖</div><h4>AI Code Reviews</h4><p>Auto-review PRs for bugs, security and performance.</p></div>
+        <div class="feature-item reveal" data-tilt><div class="feature__glow"></div><div class="feature__icon">📦</div><h4>Container Registry</h4><p>Private Docker registry with vulnerability scanning.</p></div>
+        <div class="feature-item reveal" data-tilt><div class="feature__glow"></div><div class="feature__icon">🔔</div><h4>Smart Alerts</h4><p>ML-powered anomaly detection and incident routing.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Social Proof</span>
+        <h2 class="section-title">Loved by engineering<br />teams worldwide.</h2>
+        <div class="rating-summary reveal">
+          <div class="rating-stars">★★★★★</div>
+          <div class="rating-score">4.9</div>
+          <div class="rating-divider"></div>
+          <div class="rating-count">2,400+ reviews on G2 &amp; Capterra</div>
+        </div>
+      </div>
+      <div class="testimonials__slider" id="testimonialSlider">
+        <div class="testimonials__track" id="testimonialTrack">
+          <div class="testimonial-card">
+            <div class="testimonial__quote">"</div>
+            <div class="testimonial__stars">★★★★★</div>
+            <blockquote>Apex cut our deployment time from 45 minutes to under 4 seconds. The team was skeptical at first, but after the first week everyone was converted.</blockquote>
+            <div class="testimonial__author">
+              <img src="https://i.pravatar.cc/48?img=11" alt="Sarah K." width="48" height="48" />
+              <div><strong>Sarah Kim</strong><span>Head of Engineering, Growly</span></div>
+              <div class="testimonial__company-badge">✓ Verified</div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial__quote">"</div>
+            <div class="testimonial__stars">★★★★★</div>
+            <blockquote>We replaced four tools with Apex. The observability suite alone is worth the price — seeing everything in one dashboard changed how we operate.</blockquote>
+            <div class="testimonial__author">
+              <img src="https://i.pravatar.cc/48?img=22" alt="Marcus R." width="48" height="48" />
+              <div><strong>Marcus Reynolds</strong><span>CTO, Stackframe</span></div>
+              <div class="testimonial__company-badge">✓ Verified</div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial__quote">"</div>
+            <div class="testimonial__stars">★★★★★</div>
+            <blockquote>Branch previews alone saved us hours every sprint. Now every designer can check changes live before merge. Absolute game changer for our team.</blockquote>
+            <div class="testimonial__author">
+              <img src="https://i.pravatar.cc/48?img=33" alt="Priya N." width="48" height="48" />
+              <div><strong>Priya Nair</strong><span>VP Engineering, Clarityx</span></div>
+              <div class="testimonial__company-badge">✓ Verified</div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial__quote">"</div>
+            <div class="testimonial__stars">★★★★★</div>
+            <blockquote>The rollback feature saved our launch. One bad deploy, one click, and we were back up in 8 seconds. Can't imagine shipping without it now.</blockquote>
+            <div class="testimonial__author">
+              <img src="https://i.pravatar.cc/48?img=44" alt="James W." width="48" height="48" />
+              <div><strong>James Wu</strong><span>Founder, Buildify</span></div>
+              <div class="testimonial__company-badge">✓ Verified</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider__controls">
+        <button class="slider__btn" id="prevBtn" aria-label="Previous">←</button>
+        <div class="slider__dots" id="sliderDots"></div>
+        <button class="slider__btn" id="nextBtn" aria-label="Next">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Pricing</span>
+        <h2 class="section-title">Simple pricing.<br />Serious power.</h2>
+        <p class="section-sub">Start free, scale on your terms. Cancel any time.</p>
+      </div>
+      <div class="pricing__toggle reveal">
+        <span class="toggle__label toggle__label--active" id="toggleLabelMonthly">Monthly</span>
+        <button class="toggle__switch" id="billingToggle" role="switch" aria-checked="false">
+          <span class="toggle__knob"></span>
+        </button>
+        <span class="toggle__label" id="toggleLabelAnnual">Annual <em class="toggle__save">Save 20%</em></span>
+      </div>
+      <div class="urgency-strip reveal">
+        <span class="urgency-dot"></span>
+        <span><strong>47 teams</strong> signed up in the last 24 hours.</span>
+      </div>
+      <div class="pricing__grid">
+        <div class="pricing-card reveal">
+          <div class="pricing__tier">Starter</div>
+          <div class="pricing__price">
+            <span class="price__currency">$</span>
+            <span class="price__amount" data-monthly="0" data-annual="0">0</span>
+            <span class="price__period">/mo</span>
+          </div>
+          <p class="pricing__desc">Perfect for solo developers and small side projects.</p>
+          <ul class="pricing__features">
+            <li><span class="check">✓</span> 3 projects</li>
+            <li><span class="check">✓</span> 50 deployments/mo</li>
+            <li><span class="check">✓</span> 1 team member</li>
+            <li><span class="check">✓</span> Community support</li>
+            <li class="muted"><span>—</span> Branch previews</li>
+            <li class="muted"><span>—</span> Analytics suite</li>
+          </ul>
+          <a href="#" class="btn btn--outline btn--full">Get Started Free</a>
+        </div>
+        <div class="pricing-card pricing-card--featured reveal">
+          <div class="pricing__badge">Most Popular</div>
+          <div class="pricing__tier">Pro</div>
+          <div class="pricing__price">
+            <span class="price__currency">$</span>
+            <span class="price__amount" data-monthly="49" data-annual="39">49</span>
+            <span class="price__period">/mo</span>
+          </div>
+          <p class="pricing__desc">For growing teams that need speed and reliability.</p>
+          <ul class="pricing__features">
+            <li><span class="check">✓</span> Unlimited projects</li>
+            <li><span class="check">✓</span> Unlimited deployments</li>
+            <li><span class="check">✓</span> Up to 10 members</li>
+            <li><span class="check">✓</span> Priority support</li>
+            <li><span class="check">✓</span> Branch previews</li>
+            <li><span class="check">✓</span> Full analytics suite</li>
+          </ul>
+          <a href="#" class="btn btn--primary btn--full btn--shimmer">Start 14-Day Free Trial</a>
+          <p class="pricing__guarantee">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            30-day money-back guarantee
+          </p>
+        </div>
+        <div class="pricing-card reveal">
+          <div class="pricing__tier">Enterprise</div>
+          <div class="pricing__price">
+            <span class="price__amount price__amount--custom">Custom</span>
+          </div>
+          <p class="pricing__desc">For large teams with complex requirements and compliance needs.</p>
+          <ul class="pricing__features">
+            <li><span class="check">✓</span> Everything in Pro</li>
+            <li><span class="check">✓</span> Unlimited members</li>
+            <li><span class="check">✓</span> SSO / SAML</li>
+            <li><span class="check">✓</span> Dedicated support</li>
+            <li><span class="check">✓</span> SLA guarantees</li>
+            <li><span class="check">✓</span> On-prem option</li>
+          </ul>
+          <a href="#" class="btn btn--outline btn--full">Contact Sales</a>
+        </div>
+      </div>
+      <div class="trust-badges reveal">
+        <div class="trust-badge">🔒 SOC 2 Type II</div>
+        <div class="trust-badge">🇪🇺 GDPR Compliant</div>
+        <div class="trust-badge">🏅 ISO 27001</div>
+        <div class="trust-badge">💳 No credit card</div>
+        <div class="trust-badge">↩️ Cancel anytime</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="cta-banner__bg" aria-hidden="true">
+      <div class="cta__orb cta__orb--1"></div>
+      <div class="cta__orb cta__orb--2"></div>
+      <div class="cta__grid"></div>
+    </div>
+    <div class="container cta-banner__inner reveal">
+      <div class="cta__eyebrow">
+        <span class="cta__live-dot"></span>
+        <span>3 people are signing up right now</span>
+      </div>
+      <h2>Ready to ship at the speed<br />your team deserves?</h2>
+      <p>Join 14,000+ teams already building with Apex.<br />Free to start, no credit card required.</p>
+      <div class="cta-banner__actions">
+        <a href="#pricing" class="btn btn--primary btn--xl btn--shimmer" data-magnetic>
+          <span class="btn__inner">
+            Start Building Free
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="btn__ripple"></span>
+        </a>
+        <div class="cta__trust">
+          <span>✓ Free forever plan</span>
+          <span>✓ No credit card</span>
+          <span>✓ Cancel anytime</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">FAQ</span>
+        <h2 class="section-title">Questions?<br />We've got answers.</h2>
+      </div>
+      <div class="faq__list">
+        <div class="faq-item reveal">
+          <button class="faq__question" aria-expanded="false">
+            <span>How does the free trial work?</span>
+            <span class="faq__icon"><span class="bar bar-h"></span><span class="bar bar-v"></span></span>
+          </button>
+          <div class="faq__answer"><p>You get 14 days of full Pro access — no credit card required. At the end, you choose to upgrade or drop to the free Starter plan. No surprises, no auto-charges.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq__question" aria-expanded="false">
+            <span>Can I migrate from my existing CI/CD tool?</span>
+            <span class="faq__icon"><span class="bar bar-h"></span><span class="bar bar-v"></span></span>
+          </button>
+          <div class="faq__answer"><p>Yes. We support one-click migration from Jenkins, GitHub Actions, CircleCI, and GitLab CI. Most teams are up and running in under 30 minutes.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq__question" aria-expanded="false">
+            <span>What cloud providers do you support?</span>
+            <span class="faq__icon"><span class="bar bar-h"></span><span class="bar bar-v"></span></span>
+          </button>
+          <div class="faq__answer"><p>Apex works with AWS, Google Cloud, Azure, DigitalOcean, Hetzner, and bare metal. Deploy to multiple clouds simultaneously from one dashboard.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq__question" aria-expanded="false">
+            <span>How is my data secured?</span>
+            <span class="faq__icon"><span class="bar bar-h"></span><span class="bar bar-v"></span></span>
+          </button>
+          <div class="faq__answer"><p>All data is encrypted in transit (TLS 1.3) and at rest (AES-256). We're SOC 2 Type II certified and GDPR compliant. Your code is never stored on our servers.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq__question" aria-expanded="false">
+            <span>Do you offer self-hosted deployments?</span>
+            <span class="faq__icon"><span class="bar bar-h"></span><span class="bar bar-v"></span></span>
+          </button>
+          <div class="faq__answer"><p>Yes, our Enterprise plan includes an on-premises option with dedicated onboarding support from our team.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq__question" aria-expanded="false">
+            <span>Can I change plans at any time?</span>
+            <span class="faq__icon"><span class="bar bar-h"></span><span class="bar bar-v"></span></span>
+          </button>
+          <div class="faq__answer"><p>Absolutely. Upgrade, downgrade, or cancel at any time. Mid-cycle upgrades are prorated. Downgrades take effect at the end of your billing period.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#" class="nav__logo">
+          <span class="logo-mark">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <polygon points="10,1 19,6 19,14 10,19 1,14 1,6" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <polygon points="10,5 15,8 15,12 10,15 5,12 5,8" fill="currentColor" opacity="0.5"/>
+            </svg>
+          </span>
+          Apex
+        </a>
+        <p>Build faster. Ship smarter.<br />Scale without limits.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Twitter" class="social-btn">𝕏</a>
+          <a href="#" aria-label="GitHub" class="social-btn">⌥</a>
+          <a href="#" aria-label="LinkedIn" class="social-btn">in</a>
+        </div>
+        <div class="footer__status">
+          <span class="status__dot"></span>
+          All systems operational
+        </div>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h5>Product</h5>
+          <a href="#">Features</a>
+          <a href="#">Pricing</a>
+          <a href="#">Changelog</a>
+          <a href="#">Roadmap</a>
+        </div>
+        <div class="footer__col">
+          <h5>Company</h5>
+          <a href="#">About</a>
+          <a href="#">Blog</a>
+          <a href="#">Careers <span class="hiring-badge">Hiring</span></a>
+          <a href="#">Press</a>
+        </div>
+        <div class="footer__col">
+          <h5>Legal</h5>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Security</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <span>© 2026 Apex Technologies, Inc. All rights reserved.</span>
+        <span>Made with ♥ for developers</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script3.js"></script>
+</body>
+</html>

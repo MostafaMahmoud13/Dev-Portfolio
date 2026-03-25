@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUXE — Premium Collection</title>
+  <link rel="stylesheet" href="style1.css " />
+  <!-- Google Fonts: Cormorant Garamond (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="app1.js" defer></script>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav class="nav" id="nav">
+    <a class="nav__logo" href="#">LUXE</a>
+    <ul class="nav__links">
+      <li><a href="#products">Collection</a></li>
+      <li><a href="#featured">Featured</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#newsletter">Contact</a></li>
+    </ul>
+    <div class="nav__actions">
+      <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="nav__burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section class="hero" id="hero">
+    <!-- Animated particle canvas -->
+    <canvas id="heroCanvas"></canvas>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow">New Season · 2026</p>
+      <h1 class="hero__headline">
+        <span class="line">Crafted for</span>
+        <span class="line italic">Those Who</span>
+        <span class="line">Demand More.</span>
+      </h1>
+      <p class="hero__sub">Curated luxury pieces, timeless design, uncompromising quality.</p>
+      <a href="#products" class="btn btn--primary">
+        <span>Explore Collection</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="hero__scroll-hint">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FILTERS + PRODUCT GRID
+  ============================================================ -->
+  <section class="products-section" id="products">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">The Collection</p>
+        <h2 class="section-title">Curated Pieces</h2>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-bar__search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="Search products…" />
+        </div>
+
+        <div class="filter-bar__categories">
+          <button class="filter-pill active" data-cat="all">All</button>
+          <button class="filter-pill" data-cat="accessories">Accessories</button>
+          <button class="filter-pill" data-cat="watches">Watches</button>
+          <button class="filter-pill" data-cat="bags">Bags</button>
+          <button class="filter-pill" data-cat="fragrance">Fragrance</button>
+        </div>
+
+        <div class="filter-bar__price">
+          <label>Price: <span id="priceVal">$2000</span></label>
+          <input type="range" id="priceRange" min="50" max="2000" value="2000" step="50" />
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="product-grid" id="productGrid"></div>
+      <p class="no-results hidden" id="noResults">No products match your filters.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED SECTION
+  ============================================================ -->
+  <section class="featured-section" id="featured">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Best Sellers</p>
+        <h2 class="section-title">Featured Picks</h2>
+      </div>
+      <div class="featured-grid" id="featuredGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TESTIMONIALS
+  ============================================================ -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">What They Say</p>
+        <h2 class="section-title">Client Reviews</h2>
+      </div>
+      <div class="testimonials-slider" id="testimonialsSlider">
+        <div class="testimonials-track" id="testimonialsTrack"></div>
+      </div>
+      <div class="slider-dots" id="sliderDots"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       NEWSLETTER
+  ============================================================ -->
+  <section class="newsletter-section" id="newsletter">
+    <div class="container">
+      <div class="newsletter-glass">
+        <p class="section-eyebrow">Stay in the Loop</p>
+        <h2 class="newsletter-title">Exclusive Access.<br/><em>Yours First.</em></h2>
+        <p class="newsletter-sub">Join our inner circle for early drops, private sales, and curated edits.</p>
+        <div class="newsletter-form">
+          <input type="email" id="emailInput" placeholder="Your email address" />
+          <button class="btn btn--primary" id="subscribeBtn">
+            <span>Subscribe</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <p class="newsletter-note" id="newsletterNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <p class="footer__logo">LUXE</p>
+        <p class="footer__tagline">Crafted with intention.</p>
+      </div>
+      <div class="footer__links">
+        <p>© 2026 LUXE. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       CART SIDEBAR
+  ============================================================ -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-sidebar__header">
+      <h3>Your Cart</h3>
+      <button class="cart-close" id="cartClose">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-sidebar__footer">
+      <div class="cart-total">
+        <span id="cartTotal" class="cart-total-amount">$0.00</span>
+      </div>
+      <button class="btn btn--primary btn--full" id="checkoutBtn">
+        <span>Checkout</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       PRODUCT DETAIL MODAL
+  ============================================================ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="productModal">
+      <button class="modal-close" id="modalClose">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+</body>
+</html>
